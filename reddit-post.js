@@ -1,96 +1,44 @@
-class PostListComponent extends HTMLElement {
+class PostCardComponent extends HTMLElement {
+
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-        this.postArray = [];
     }
 
-    
-
-    connectedCallback(cat) {
-        fetch('https://www.reddit.com/r/'+ cat +'/new.json')
-            .then(resp => resp.json())
-            .then(res => {
-                console.log(res)
-                const data = res.data;
-                const posts = data.children;
-                this.postArray = posts;
-                this.render(this.postArray);
-
-            });
-
-            
+    connectedCallback() {
+        this.render();
     }
 
-   connectedCallback()
+    render() {
+        if (this.post) {
+            this.shadowRoot.innerHTML = '';
 
-   
-    
-    render(posts) {
-        this.shadowRoot.innerHTML = '';
+            this.shadowRoot.innerHTML = `
+            <div class="card-post"> 
+    <div class="card-header"> 
+        <span class="span-created">${toHumanTime(this.post.data.created)} </span>
+        <div class="h3-title"> 
+            <h3> ${this.post.data.title}</h3>
+        </div>
+        <div class="h3-author"> 
+            <h3>${this.post.data.author_fullname} </h3>
+        </div>
+        <div class="img-container"> <img src="${this.post.data.thumbnail} " alt=""> </div>
+        <div class="details"> 
+            <a href="${this.post.data.url}" target="_blank" rel="noopener noreferrer"></a>
+        </div>
 
-        const mainContainer = document.createElement('div');
-        mainContainer.setAttribute('id', 'main-container');
-
-        for (let i = 0; i < posts.length; i++) {
-            const post = posts[i];
-
-            const cardComponent = document.createElement('post-card');
-            cardComponent.addEventListener('card-clicked', (e) => this.removepost(e.detail));
-            cardComponent.post = post;
-
-            const div = document.createElement('div');
-            div.classList.add('card');
-
-            const h3 = document.createElement('h3');
-            h3.textContent = post.data.title;
-            div.appendChild(h3);
-
-            const cardDetailsDiv = document.createElement('div');
-            cardDetailsDiv.classList.add('card-details');
-
-            const timestamp = post.data.created;
-            const oreFormattate = toHumanTime(timestamp);
-            const timestampDisplayElement = document.createElement('span');
-            timestampDisplayElement.classList.add('card-detail');
-            timestampDisplayElement.textContent = oreFormattate;
-            cardDetailsDiv.appendChild(timestampDisplayElement);
-
-            this.shadowRoot.appendChild(div);
-
-            const cardAuthorSpan = document.createElement('span');
-            cardAuthorSpan.classList.add('card-author');
-            cardAuthorSpan.textContent = post.data.author_fullname;
-            div.appendChild(cardAuthorSpan);
-
-            const cardTitleSpan = document.createElement('span');
-            cardTitleSpan.classList.add('card-title');
-            cardTitleSpan.textContent = post.data.title;
-            div.appendChild(cardTitleSpan);
-
-            const cardImage = document.createElement('img');
-            cardImage.src = post.data.thumbnail;
-            cardImage.alt = '';
-            div.appendChild(cardImage);
-
-            const link = document.createElement('a');
-            link.href = post.data.url;
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
-            link.textContent = 'link al post originale';
-            cardDetailsDiv.appendChild(link);
-            div.appendChild(cardDetailsDiv);
-
-            mainContainer.appendChild(cardComponent);
+        
+    </div>
+</div>
+             
+             `
+           
+            // const deleteBtn = document.createElement('button');
+            // deleteBtn.textContent = 'cancellami';
+            // div.appendChild(deleteBtn);
+            // deleteBtn.addEventListener('click', () => this.emitEvent());
         }
-
-        this.shadowRoot.appendChild(mainContainer);
-   
-    }
-
-    removepost(title) {
-        this.postArray = this.postArray.filter(post => post.data.title !== title);
-        this.render(this.postArray);
     }
 
     emitEvent() {
@@ -99,30 +47,31 @@ class PostListComponent extends HTMLElement {
     }
 }
 
-
 function toHumanTime(timestamp) {
-    const timestampInMils = timestamp * 1000;
-    const now = Date.now();
-    const delta = now - timestampInMils;
+   
 
-    let second = parseInt(delta / 1000);
-    if (second < 60) {
-        return second + ' secondi fa';
+    const timestampInMils = timestamp * 1000
+    const now = Date.now()
+
+    const delta = now - timestampInMils
+
+    let second = parseInt(delta / 1000)
+    if(second < 60){
+        return second + ' secondi fa'
+    }
+    
+    let minuti = parseInt(second / 60)
+    if(minuti < 60){
+        return minuti + ' minuti fa'
     }
 
-    let minuti = parseInt(second / 60);
-    if (minuti < 60) {
-        return minuti + ' minuti fa';
-    }
-
-    let ore = parseInt(minuti / 60);
-    if (ore < 24) {
-        return ore + ' ore fa';
-    }
-
-    return parseInt(ore / 24) + ' giorni fa';
+    let ore = parseInt((minuti / 60));
+    if(ore < 24){
+        return ore + ' ore fa'
+    } 
+   
+    return parseInt(ore / 24) + ' giorni fa'
+   
 }
 
-customElements.define('posts-list', PostListComponent);
-
-
+customElements.define('post-card', PostCardComponent);
