@@ -12,17 +12,23 @@ class CategoryPosts extends HTMLElement {
         this.loadPosts();
     }
 
+
     loadPosts() {
         const promises = this.categoryArray.map((category) =>
-            fetch('https://www.reddit.com/r/' + category + '/new.json').then((resp) => resp.json())
+            fetch(`https://www.reddit.com/r/${category}/new.json`)
+            .then((resp) => resp.json())
+            .catch((error) => {
+                console.error(`Error fetching posts for ${category}:`, error);
+                return { data: { children: [] } };
+            })
         );
 
         Promise.all(promises)
             .then((responses) => {
-                responses.forEach((res) => {
+                responses.forEach((res, index) => {
                     if (res.data && res.data.children) {
                         const categoryPosts = res.data.children.map((post) => post.data);
-                        this.posts = [...this.posts, ...categoryPosts];
+                        this.posts = [...this.posts, ...categoryPosts.map((post) => ({ ...post, category: this.categoryArray[index] }))]; 
                     }
                 });
                 this.showFilteredPosts();
@@ -37,9 +43,12 @@ class CategoryPosts extends HTMLElement {
 
         const mainContainer = document.createElement('div');
         this.shadowRoot.appendChild(mainContainer);
+        mainContainer.classList.add('main-contaier')
 
         const dialog = document.getElementById('dialog');
+        dialog.classList.add('dialog')
         const dialogInput = document.createElement('div');
+        dialogInput.classList.add('dialog-input')
 
         for (let i = 0; i < this.categoryArray.length; i++) {
             const input = this.categoryArray[i];
@@ -65,7 +74,7 @@ class CategoryPosts extends HTMLElement {
 
     showFilteredPosts() {
         const filteredPosts = this.posts.filter((post) => this.selectedCategories.has(post.category));
-
+console.log(filteredPosts)
         const postContainer = document.getElementById('postContainer');
         postContainer.innerHTML = '';
 
@@ -75,6 +84,8 @@ class CategoryPosts extends HTMLElement {
             postContainer.appendChild(cardComponent);
         });
     }
+
 }
+
 
 customElements.define('pref-dialog', CategoryPosts);

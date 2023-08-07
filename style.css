@@ -1,0 +1,71 @@
+body {
+    width: 100vh;
+    box-sizing: border-box;
+    background-color: rgb(36, 35, 35);
+
+}
+
+
+#postContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+
+.dialog-container {
+
+
+
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgb(59, 59, 59);
+    color: white;
+    padding: 20px;
+
+}
+
+label {
+    color: white;
+    font-size: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+
+
+
+.dialog {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: white;
+    align-items: center;
+    justify-content: center;
+
+
+    width: 100%;
+
+
+}
+
+.dialog-input {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+}
+
+post-card {
+    display: flex;
+
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
