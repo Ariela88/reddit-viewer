@@ -5,22 +5,33 @@ class CategoryPosts extends HTMLElement {
         this.categoryArray = ['gaming', 'history', 'animals_and_pets', 'movies', 'science', 'food_and_drink', 'travel', 'music', 'programming', 'hobbies'];
         this.selectedCategories = new Set();
         this.posts = [];
+
+        this.loadSelectedCategories();
+
     }
+
+    loadSelectedCategories() {
+        const savedCategories = Storage.loadData();
+        this.selectedCategories = new Set(savedCategories);
+    }
+
 
     connectedCallback() {
-        this.render();
-        this.loadPosts();
+        if (this.selectedCategories.size > 0) {
+            this.loadPosts();
+        } else {
+            this.render();
+        }
     }
-
 
     loadPosts() {
         const promises = this.categoryArray.map((category) =>
             fetch(`https://www.reddit.com/r/${category}/new.json`)
-            .then((resp) => resp.json())
-            .catch((error) => {
-                console.error(`Error fetching posts for ${category}:`, error);
-                return { data: { children: [] } };
-            })
+                .then((resp) => resp.json())
+                .catch((error) => {
+                    console.error(`Error fetching posts for ${category}:`, error);
+                    return { data: { children: [] } };
+                })
         );
 
         Promise.all(promises)
@@ -28,7 +39,7 @@ class CategoryPosts extends HTMLElement {
                 responses.forEach((res, index) => {
                     if (res.data && res.data.children) {
                         const categoryPosts = res.data.children.map((post) => post.data);
-                        this.posts = [...this.posts, ...categoryPosts.map((post) => ({ ...post, category: this.categoryArray[index] }))]; 
+                        this.posts = [...this.posts, ...categoryPosts.map((post) => ({ ...post, category: this.categoryArray[index] }))];
                     }
                 });
                 this.showFilteredPosts();
@@ -40,15 +51,16 @@ class CategoryPosts extends HTMLElement {
 
     render() {
         this.shadowRoot.innerHTML = '';
-
         const mainContainer = document.createElement('div');
         this.shadowRoot.appendChild(mainContainer);
-        mainContainer.classList.add('main-contaier')
+        mainContainer.classList.add('main-contaier');
+
+       
 
         const dialog = document.getElementById('dialog');
-        dialog.classList.add('dialog')
+        dialog.classList.add('dialog');
         const dialogInput = document.createElement('div');
-        dialogInput.classList.add('dialog-input')
+        dialogInput.classList.add('dialog-input');
 
         for (let i = 0; i < this.categoryArray.length; i++) {
             const input = this.categoryArray[i];
@@ -68,13 +80,14 @@ class CategoryPosts extends HTMLElement {
             dialog.style.display = 'none';
         });
 
+
+
         dialogInput.appendChild(okButton);
         dialog.appendChild(dialogInput);
     }
 
     showFilteredPosts() {
         const filteredPosts = this.posts.filter((post) => this.selectedCategories.has(post.category));
-console.log(filteredPosts)
         const postContainer = document.getElementById('postContainer');
         postContainer.innerHTML = '';
 
@@ -83,9 +96,14 @@ console.log(filteredPosts)
             cardComponent.post = post;
             postContainer.appendChild(cardComponent);
         });
+        Storage.saveData(this.selectedCategories);
     }
 
+    showTopPost() {
+        const url = `https://www.reddit.com/r/${category}/new.json`
+        return url + '/top'
+    }
+    
 }
-
 
 customElements.define('pref-dialog', CategoryPosts);

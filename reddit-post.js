@@ -13,15 +13,47 @@ class PostCardComponent extends HTMLElement {
             this.shadowRoot.innerHTML = '';
 
             this.shadowRoot.innerHTML += `<style>
-            .card-post{
-                border: 2px solid black;
+            .card{
+                width:400px;
+                position:relative;
+                float:right;
                 display: flex;
-                flex-wrap: wrap;
-                width: 800px;
-                background-color: rgb(59, 59, 59);
-                color: white;
-                align-items: center;
-                justify-content: center;
+                width: 70%;
+                flex-direction: column;
+                background-color: white;
+                border-radius: 16px;
+                padding: 16px;
+                margin-bottom: 40px;
+               
+               
+                
+               
+            }
+            .img-container img{
+                width:60%;
+                border-radius:20px;
+            }
+            .h3-title{
+                width:100%;
+                flex-wrap:wrap;
+                font-size: 20px;
+                font-weight: bold;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            }
+            .h3-author{
+                font-size: large;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            }
+            .details{
+                display: flex;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            }
+            .details{
+                flex:1;
+                display:flex;
+                flex-direction:column;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            }
 
             }
             
@@ -78,5 +110,7 @@ function toHumanTime(timestamp) {
 
     return parseInt(ore / 24) + ' giorni fa';
 }
+
+
 
 customElements.define('post-card', PostCardComponent);

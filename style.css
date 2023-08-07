@@ -5,6 +5,55 @@ body {
 
 }
 
+.header{
+            
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin:0;
+    padding:0;
+   
+}
+
+.btn-header {
+    display: flex;
+    justify-content: space-around;
+    gap:30px;
+
+
+}
+
+.btn-header button {
+
+    width: 100px;
+    height: 40px;
+    border-radius: 26px;
+    box-shadow: none;
+    border: none;
+    font-weight: 500;
+    
+}
+
+#search {
+    background-color: #d9d9d9;
+    border:none;
+    width: 60%;
+    height: 50px;
+    border-radius:28px;
+
+}
+#logo-reddit{
+    width:10%;
+}
+#download-app-btn {
+    background-color: rgb(174, 172, 172);
+}
+
+#login-btn {
+    background-color: orangered;
+    color: white;
+}
+
 
 #postContainer {
     width: 100%;
@@ -63,9 +112,14 @@ label {
 }
 
 post-card {
+    border: 1px solid black;
     display: flex;
+width: 500px;
+text-align: center;
+color: white;
 
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-}
+    margin-left: 200px;
+margin-bottom: 30px;}

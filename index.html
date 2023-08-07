@@ -7,7 +7,17 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <header></header>
+    <header>
+        <div class="header"> 
+            <img id="logo-reddit" src="./assets/Reddit-logo.png" alt="">
+            <input type="search" name="search" placeholder="    Search Reddit" id="search">
+            <div class="btn-header"> 
+                <button id="download-app-btn"> Scarica App  </button>
+                <button id="login-btn"> Login </button>
+            </div>
+        </div>
+    </header>
+    <button id="top-btn-post"> Show Top Posts </button>
 
     <pref-dialog></pref-dialog>
 
@@ -17,16 +27,17 @@
         <div id="dialog">
             <button id="okButton">OK</button>
            
-            <div class="add-category">
+            <!-- <div class="add-category">
                 <input type="text">
                 <button>Aggiungi categoria</button>
-            </div>
+            </div> -->
         </div>
         <button>Cancel</button>
     </div>
 
     <footer></footer>
     
+    <script src="./storage.js"></script>
     <script src="./prefer-posts.js"></script>
     <script src="./reddit-post.js"></script>
     <script src="./app.js"></script>
