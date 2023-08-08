@@ -89,14 +89,33 @@ class CategoryPosts extends HTMLElement {
     showFilteredPosts() {
         const filteredPosts = this.posts.filter((post) => this.selectedCategories.has(post.category));
         const postContainer = document.getElementById('postContainer');
-        postContainer.innerHTML = '';
+        postContainer.innerHTML =`
+        <div class="card-post">
+            <div class="card-header">
+                <span class="span-created">${toHumanTime(this.created)}</span>
+                <div class="h3-title">
+                    <h3>${this.title}</h3>
+                </div>
+                <div class="h3-author">
+                    <h3>${this.author_fullname}</h3>
+                </div>
+                <div class="img-container">
+                    <img src="${this.thumbnail}" alt="">
+                </div>
+                <div class="details">
+                    <a href="${this.url}" target="_blank" rel="noopener noreferrer"></a>
+                </div>
+            </div>
+        </div>`;
 
         filteredPosts.forEach((post) => {
             const cardComponent = document.createElement('post-card');
             cardComponent.post = post;
             postContainer.appendChild(cardComponent);
-        });
-        Storage.saveData(this.selectedCategories);
+        
+       ;});
+        
+                Storage.saveData(this.selectedCategories);
     }
 
     showTopPost() {

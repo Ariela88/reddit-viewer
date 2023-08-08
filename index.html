@@ -1,45 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reddit Task</title>
     <link rel="stylesheet" href="./style.css">
+
 </head>
+
 <body>
     <header>
-        <div class="header"> 
-            <img id="logo-reddit" src="./assets/Reddit-logo.png" alt="">
+        <div class="header">
+            <img id="logo-reddit" src="./public/Reddit-logo.png" alt="">
             <input type="search" name="search" placeholder="    Search Reddit" id="search">
-            <div class="btn-header"> 
-                <button id="download-app-btn"> Scarica App  </button>
-                <button id="login-btn"> Login </button>
+            <div class="btn-header">
+                <button id="download-app-btn"><a href="https://play.google.com/store/apps/details?id=com.reddit.frontpage&hl=en&pli=1" target="_blank" rel="noopener noreferrer">Scarica App</a>  </button>
+                <button id="login-btn"><a href="https://www.reddit.com/login">Login </a> </button>
             </div>
         </div>
+        <button id="top-btn-post"> Show Top Posts </button>
     </header>
-    <button id="top-btn-post"> Show Top Posts </button>
+    <main class="main-wrapper">
 
-    <pref-dialog></pref-dialog>
+        <section class="list">
+            <aside class="sidebar">
+                <div class="nav-header">
+                    Categorie
+                    </header>
+                    <nav id="sidebar-nav">
+                        
+                    </nav>
+            </aside>
+        </section>
 
-    <div id="postContainer"></div>
+        <super-nav> </super-nav>
+        <div id="postContainer"></div>
 
-    <div class="dialog-container">
-        <div id="dialog">
-            <button id="okButton">OK</button>
-           
-            <!-- <div class="add-category">
-                <input type="text">
-                <button>Aggiungi categoria</button>
-            </div> -->
+        <div class="dialog-container">
+            <div id="dialog">
+                <button id="okButton">OK</button>
+                <pref-dialog></pref-dialog>
+
+
+            </div>
+            <button>Cancel</button>
         </div>
-        <button>Cancel</button>
-    </div>
+    </main>
 
     <footer></footer>
-    
-    <script src="./storage.js"></script>
-    <script src="./prefer-posts.js"></script>
-    <script src="./reddit-post.js"></script>
+
+
+
+    <script src="./db-service/storage.js"></script>
+    <script src="./web-components/prefer-posts.js"></script>
+    <script src="./web-components/reddit-post.js"></script>
     <script src="./app.js"></script>
+    <script src="./web-components/super-navbar-component.js"></script>
 </body>
+
 </html>
