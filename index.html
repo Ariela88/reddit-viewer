@@ -19,7 +19,7 @@
                 <button id="login-btn"><a href="https://www.reddit.com/login">Login </a> </button>
             </div>
         </div>
-        <button id="top-btn-post"> Show Top Posts </button>
+        
     </header>
     <main class="main-wrapper">
 
@@ -29,6 +29,8 @@
                     Categorie
                     </header>
                     <nav id="sidebar-nav">
+                        <input type="text" id="new-category-input" placeholder="Aggiungi una categoria">
+                
                         
                     </nav>
             </aside>
@@ -37,11 +39,11 @@
         <super-nav> </super-nav>
         <div id="postContainer"></div>
 
-        <div class="dialog-container">
+        <div id="dialog-container"class="dialog-container">
             <div id="dialog">
                 <label for="category"> Aggiungi una categoria </label>
                 <input type="text" name="category" id="category" value="category">
-                
+                <button id="ok-btn">Ok</button>
                 <pref-dialog></pref-dialog>
 
 

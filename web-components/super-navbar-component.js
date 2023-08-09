@@ -2,12 +2,12 @@ class SideBarComponent extends HTMLElement {
 
   constructor() {
     super();
-  this.attachShadow({ mode: 'open' });
-  this.postsArray = [];
-  
-  this.selectedCategories = new Set(); 
+    this.attachShadow({ mode: 'open' });
+    this.postsArray = [];
 
-    
+    this.selectedCategories = new Set();
+
+
     this.categoryArray = [
       {
         "name": "Videogiochi",
@@ -44,66 +44,66 @@ class SideBarComponent extends HTMLElement {
         "value": "hobbies"
       }
     ];
-
-
+   
   }
-
-
-  
-
-
 
   connectedCallback() {
-    
-
-  this.render()
-
-
-
+    this.render();
   }
 
+  
   render() {
-    
-    
-    const sidebar = document.getElementById('sidebar-nav');
-    const topBtn = document.getElementById('top-btn-post')
-    topBtn.addEventListener('click', () => {
-        this.postsArray = []
-fetch(`https://www.reddit.com/r/popular/new.json`)
-            .then((resp) => resp.json()).then(res => {
-              if (res.data && res.data.children) {
-                for (const data of res.data.children) {
-                        this.postsArray.push(data.data)
-                       }
-                    }
-                this.showFilteredPosts();
-                })
-            .catch((error) => {
-                console.error(`Error fetching posts for:`, error);
-                return { data: { children: [] } };
-            })
+    const sidebar = document.createElement('nav');
+    sidebar.id = 'sidebar-nav';
 
-    }
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.id = 'new-category-input';
+    input.placeholder = 'Aggiungi una categoria';
 
-    )
-    
-for (const object of this.categoryArray) {
-        const categoryBtn = document.createElement('button')
-      const btnCategoryNode = document.createTextNode(object.name)
-      categoryBtn.appendChild(btnCategoryNode)
-      
-      categoryBtn.addEventListener('click', () => {
-        this.loadPostsBtn(object.value);
-        console.log('Categoria selezionata:', object.value);
+    const addCatBtn = document.createElement('button');
+    addCatBtn.id = 'add-cat-btn';
+    addCatBtn.textContent = 'Aggiungi Categoria';
+    addCatBtn.addEventListener('click', () => {
+      this.addCategory();
     });
 
-      sidebar.appendChild(categoryBtn)
-    }
-
-    
-
+    sidebar.appendChild(input);
+    sidebar.appendChild(addCatBtn);
+    this.renderButtons(); 
+    this.shadowRoot.appendChild(sidebar);
   }
 
+  renderButtons() {
+    const categoriesContainer = document.createElement('div');
+
+    for (const category of this.categoryArray) {
+      const categoryBtn = document.createElement('button');
+      categoryBtn.textContent = category.name;
+      categoryBtn.addEventListener('click', () => {
+        this.loadPostsBtn(category.value);
+      });
+      categoriesContainer.appendChild(categoryBtn);
+    }
+
+    const sidebar = this.shadowRoot.getElementById('sidebar-nav');
+    sidebar.appendChild(categoriesContainer);
+  }
+
+  addCategory() {
+    const input = this.shadowRoot.getElementById('new-category-input');
+    const newCategory = input.value.trim();
+    if (newCategory !== '') {
+      const categoryValue = newCategory.toLowerCase().replace(/\s/g, '_');
+      const category = {
+        "name": newCategory,
+        "value": categoryValue
+      };
+      this.categoryArray.push(category);
+      input.value = '';
+      this.renderButtons();
+    }
+  }
   loadPostsBtn(value) {
     
     this.postsArray = []
@@ -125,6 +125,20 @@ for (const object of this.categoryArray) {
       
       }
 
+  renderButtons() {
+    const sidebar = document.getElementById('sidebar-nav');
+    sidebar.innerHTML = ''; // Pulisci il contenuto esistente
+
+    for (const category of this.categoryArray) {
+      const categoryBtn = document.createElement('button');
+      categoryBtn.textContent = category.name;
+      categoryBtn.addEventListener('click', () => {
+        this.loadPostsBtn(category.value);
+      });
+      sidebar.appendChild(categoryBtn);
+    }
+  }
+
   showFilteredPosts() {
     document.getElementById('postContainer').innerHTML = '';
     this.postsArray.forEach((post) => {
@@ -135,11 +149,6 @@ for (const object of this.categoryArray) {
  ;});
       
     };
-  
-  }
-
-
-
-
+}
 
 customElements.define('super-nav', SideBarComponent);

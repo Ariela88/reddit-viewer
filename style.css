@@ -69,10 +69,10 @@ body {
     flex-wrap: wrap;
 }
 
-.dialog-container {
+#dialog-container {
 
 
-
+display: none;
     height: 80vh;
     display: flex;
     flex-direction: column;
@@ -94,7 +94,7 @@ label {
 
 
 
-.dialog {
+#dialog {
     display: flex;
     flex-direction: column;
     gap: 20px;
