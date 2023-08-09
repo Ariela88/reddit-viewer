@@ -56,6 +56,9 @@ class SideBarComponent extends HTMLElement {
     
     const sidebar = document.createElement('nav');
     sidebar.id = 'sidebar-nav';
+    const showNewPost = document.getElementById('top-btn-post')
+    
+    showNewPost.addEventListener('click',()=> this.showTopPost())
 
     const input = document.createElement('input');
     input.type = 'text';
@@ -150,6 +153,27 @@ class SideBarComponent extends HTMLElement {
  ;});
       
     };
+    showTopPost() {
+      
+      this.shadowRoot.innerHTML = ''
+      JSON.parse(localStorage.getItem('posts')).map((category) =>
+          fetch(`https://www.reddit.com/r/popular/new.json`)
+              .then((resp) => resp.json()).then(res => {
+                console.log(res)
+                  if (res.data && res.data.children) {
+                      for (const data of res.data.children) {
+                          this.postsArray.push(data.data)
+                      }
+                  }
+                  this.showFilteredPosts();
+              })
+              .catch((error) => {
+                  console.error(`Error fetching posts:`, error);
+                  return { data: { children: [] } };
+              })
+        )  ;
+  }
+    
 }
 
 customElements.define('super-nav', SideBarComponent);
