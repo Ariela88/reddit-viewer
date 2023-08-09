@@ -44,41 +44,42 @@ class SideBarComponent extends HTMLElement {
         "value": "hobbies"
       }
     ];
-   
+
   }
 
   connectedCallback() {
     this.render();
   }
 
-  
+
   render() {
-    
-    const sidebar = document.createElement('nav');
-    sidebar.id = 'sidebar-nav';
+    const mainWrapper = document.getElementById('main-wrapper')
+    const sidebar = document.getElementById('sidebar-nav');
+
     const showNewPost = document.getElementById('top-btn-post')
-    
-    showNewPost.addEventListener('click',()=> this.showTopPost())
 
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.id = 'new-category-input';
-    input.placeholder = 'Aggiungi una categoria';
+    showNewPost.addEventListener('click', () => this.showTopPost())
 
-    const addCatBtn = document.getElementById('add-category');
-   
-    addCatBtn.addEventListener('click', () => {
-      this.addCategory(input);
-    });
 
-    sidebar.appendChild(input);
-    sidebar.appendChild(addCatBtn);
-    this.renderButtons(); 
-    this.shadowRoot.appendChild(sidebar);
+
+
+
+
+
+    this.renderButtons();
   }
 
   renderButtons() {
+    const sidebar = document.getElementById('sidebar-nav');
+    //sidebar.innerHTML = ''; // Pulisci il contenuto esistente
+
+
+
     const categoriesContainer = document.createElement('div');
+    const addCatBtn = document.getElementById('add-category');
+    const input = document.getElementById('new-category');
+
+
 
     for (const category of this.categoryArray) {
       const categoryBtn = document.createElement('button');
@@ -88,60 +89,61 @@ class SideBarComponent extends HTMLElement {
       });
       categoriesContainer.appendChild(categoryBtn);
     }
+    // addCatBtn.addEventListener('click', () => {
+    //   const newCategory = document.getElementById('new-category').value.trim();
+    //   if (newCategory !== '') {
+    //     this.categoryArray.push(newCategory);
+    //     console.log(this.categoryArray)
 
-    const sidebar = this.shadowRoot.getElementById('sidebar-nav');
+    //     const newCategory = document.createElement('button');
+
+    //     newCategory.name = newCategory;
+    //     newCategory.value = newCategory;
+    //     newCategory.id = newCategory;
+
+
+
+    //     sidebar.appendChild(newCategory);
+
+
+
+    //     this.selectedCategories.add(newCategory);
+    //     Storage.saveData(Array.from(this.selectedCategories));
+
+    //     this.renderButtons();
+
+    //   };
+    // })
+
+
     sidebar.appendChild(categoriesContainer);
   }
 
   addCategory() {
-  
-    const input = document.getElementById('new-category-input');
-    const newCategory = input.value.trim();
-    if (newCategory !== '') {
-      const categoryValue = newCategory.toLowerCase().replace(/\s/g, '_');
-      const category = {
-        "name": newCategory,
-        "value": categoryValue
-      };
-      this.categoryArray.push(category);
-      input.value = '';
-      this.renderButtons();
-    }
+
   }
   loadPostsBtn(value) {
-    
+
     this.postsArray = []
     fetch(`https://www.reddit.com/r/${value}/new.json`)
-                .then((resp) => resp.json()).then(res => {
-                  if (res.data && res.data.children) {
-                    for (const data of res.data.children) {
-                            this.postsArray.push(data.data)
-                           }
-                        }
-                    this.showFilteredPosts();
-                    })
-                .catch((error) => {
-                    console.error(`Error fetching posts for:`, error);
-                    return { data: { children: [] } };
-                })
+      .then((resp) => resp.json()).then(res => {
+        if (res.data && res.data.children) {
+          for (const data of res.data.children) {
+            this.postsArray.push(data.data)
+          }
+        }
+        this.showFilteredPosts();
+      })
+      .catch((error) => {
+        console.error(`Error fetching posts for:`, error);
+        return { data: { children: [] } };
+      })
 
-       
-      
-      }
 
-  renderButtons() {
-    const sidebar = document.getElementById('sidebar-nav');
-    //sidebar.innerHTML = ''; // Pulisci il contenuto esistente
 
-    for (const category of this.categoryArray) {
-      const categoryBtn = document.createElement('button');
-      categoryBtn.textContent = category.name;
-      categoryBtn.addEventListener('click', () => {
-        this.loadPostsBtn(category.value);
-      });
-      sidebar.appendChild(categoryBtn);
-    }
   }
+
+
 
   showFilteredPosts() {
     document.getElementById('postContainer').innerHTML = '';
@@ -149,31 +151,32 @@ class SideBarComponent extends HTMLElement {
       const cardComponent = document.createElement('post-card');
       cardComponent.post = post;
       postContainer.appendChild(cardComponent);
-  
- ;});
-      
-    };
-    showTopPost() {
-      
-      this.shadowRoot.innerHTML = ''
-      JSON.parse(localStorage.getItem('posts')).map((category) =>
-          fetch(`https://www.reddit.com/r/popular/new.json`)
-              .then((resp) => resp.json()).then(res => {
-                console.log(res)
-                  if (res.data && res.data.children) {
-                      for (const data of res.data.children) {
-                          this.postsArray.push(data.data)
-                      }
-                  }
-                  this.showFilteredPosts();
-              })
-              .catch((error) => {
-                  console.error(`Error fetching posts:`, error);
-                  return { data: { children: [] } };
-              })
-        )  ;
+
+      ;
+    });
+
+  };
+  showTopPost() {
+
+    this.shadowRoot.innerHTML = ''
+    JSON.parse(localStorage.getItem('posts')).map((category) =>
+      fetch(`https://www.reddit.com/r/popular/new.json`)
+        .then((resp) => resp.json()).then(res => {
+          console.log(res)
+          if (res.data && res.data.children) {
+            for (const data of res.data.children) {
+              this.postsArray.push(data.data)
+            }
+          }
+          this.showFilteredPosts();
+        })
+        .catch((error) => {
+          console.error(`Error fetching posts:`, error);
+          return { data: { children: [] } };
+        })
+    );
   }
-    
+
 }
 
 customElements.define('super-nav', SideBarComponent);
