@@ -66,7 +66,26 @@ class SideBarComponent extends HTMLElement {
     
     
     const sidebar = document.getElementById('sidebar-nav');
+    const topBtn = document.getElementById('top-btn-post')
+    topBtn.addEventListener('click', () => {
+        this.postsArray = []
+fetch(`https://www.reddit.com/r/popular/new.json`)
+            .then((resp) => resp.json()).then(res => {
+              if (res.data && res.data.children) {
+                for (const data of res.data.children) {
+                        this.postsArray.push(data.data)
+                       }
+                    }
+                this.showFilteredPosts();
+                })
+            .catch((error) => {
+                console.error(`Error fetching posts for:`, error);
+                return { data: { children: [] } };
+            })
 
+    }
+
+    )
     
 for (const object of this.categoryArray) {
         const categoryBtn = document.createElement('button')
@@ -87,53 +106,33 @@ for (const object of this.categoryArray) {
 
   loadPostsBtn(value) {
     
-    
+    this.postsArray = []
     fetch(`https://www.reddit.com/r/${value}/new.json`)
-        .then((resp) => resp.json())
-        .then((res)=> {if(res.data && res.data.children){
-          this.postsArray = res.data.children;
-          this.showFilteredPosts()
-        }})
-
-        .catch((error) => {
-            console.error(`Error fetching posts for ${value}:`, error);
-        })
+                .then((resp) => resp.json()).then(res => {
+                  if (res.data && res.data.children) {
+                    for (const data of res.data.children) {
+                            this.postsArray.push(data.data)
+                           }
+                        }
+                    this.showFilteredPosts();
+                    })
+                .catch((error) => {
+                    console.error(`Error fetching posts for:`, error);
+                    return { data: { children: [] } };
+                })
 
        
       
       }
 
   showFilteredPosts() {
-    const filteredPosts = this.postsArray.filter((post) => this.selectedCategories.has(post.category,console.log(post)));
-    
-    
-    const postContainer = document.getElementById('postContainer');
-    postContainer.innerHTML = '';
-
-    
-      for (const post of this.postsArray) {
-        
-        const cardComponent = document.createElement('post-card');
-     cardComponent.post = post
-      this.shadowRoot.innerHTML = `
-                <div class="card-post">
-                    <div class="card-header">
-                        <span class="span-created">${toHumanTime(post.data.created)}</span>
-                        <div class="h3-title">
-                            <h3>${post.data.title}</h3>
-                        </div>
-                        <div class="h3-author">
-                            <h3>${post.data.author_fullname}</h3>
-                        </div>
-                        <div class="img-container">
-                            <img src="${post.data.thumbnail}" alt="">
-                        </div>
-                        <div class="details">
-                            <a href="${post.data.url}" target="_blank" rel="noopener noreferrer"></a>
-                        </div>
-                    </div>
-                </div>`; 
-              }
+    document.getElementById('postContainer').innerHTML = '';
+    this.postsArray.forEach((post) => {
+      const cardComponent = document.createElement('post-card');
+      cardComponent.post = post;
+      postContainer.appendChild(cardComponent);
+  
+ ;});
       
     };
   

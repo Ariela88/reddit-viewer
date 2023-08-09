@@ -5,16 +5,14 @@ class CategoryPosts extends HTMLElement {
         this.categoryArray = ['gaming', 'history', 'animals_and_pets', 'movies', 'science', 'food_and_drink', 'travel', 'music', 'programming', 'hobbies'];
         this.selectedCategories = new Set();
         this.posts = [];
-
         this.loadSelectedCategories();
-
+       
     }
 
     loadSelectedCategories() {
         const savedCategories = Storage.loadData();
         this.selectedCategories = new Set(savedCategories);
     }
-
 
     connectedCallback() {
         if (this.selectedCategories.size > 0) {
@@ -25,104 +23,134 @@ class CategoryPosts extends HTMLElement {
     }
 
     loadPosts() {
-        const promises = this.categoryArray.map((category) =>
+        JSON.parse(localStorage.getItem('posts')).map((category) =>
             fetch(`https://www.reddit.com/r/${category}/new.json`)
-                .then((resp) => resp.json())
+                .then((resp) => resp.json()).then(res => {
+                    if (res.data && res.data.children) {
+                        for (const data of res.data.children) {
+                            this.posts.push(data.data);
+                        }
+                    }
+                    this.showFilteredPosts();
+                })
                 .catch((error) => {
                     console.error(`Error fetching posts for ${category}:`, error);
                     return { data: { children: [] } };
                 })
         );
-
-        Promise.all(promises)
-            .then((responses) => {
-                responses.forEach((res, index) => {
-                    if (res.data && res.data.children) {
-                        const categoryPosts = res.data.children.map((post) => post.data);
-                        this.posts = [...this.posts, ...categoryPosts.map((post) => ({ ...post, category: this.categoryArray[index] }))];
-                    }
-                });
-                this.showFilteredPosts();
-            })
-            .catch((error) => {
-                console.error('Error fetching posts:', error);
-            });
     }
 
     render() {
         this.shadowRoot.innerHTML = '';
         const mainContainer = document.createElement('div');
         this.shadowRoot.appendChild(mainContainer);
-        mainContainer.classList.add('main-contaier');
+        mainContainer.classList.add('main-container');
 
-       
-
-        const dialog = document.getElementById('dialog');
+        const dialog = document.createElement('div');
+        dialog.id = 'dialog';
         dialog.classList.add('dialog');
+
         const dialogInput = document.createElement('div');
         dialogInput.classList.add('dialog-input');
 
         for (let i = 0; i < this.categoryArray.length; i++) {
             const input = this.categoryArray[i];
-            dialogInput.innerHTML += `<input type="checkbox" name="${input}" value="${input}" id="${input}"> <label for="${input}">${input}</label>`;
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = input;
+            checkbox.value = input;
+            checkbox.id = input;
+
+            const label = document.createElement('label');
+            label.for = input;
+            label.textContent = input;
+
+            dialogInput.appendChild(checkbox);
+            dialogInput.appendChild(label);
+            dialogInput.appendChild(document.createElement('br'));
+            
         }
 
-        const okButton = document.getElementById('okButton');
-        okButton.addEventListener('click', () => {
-            this.selectedCategories.clear();
-            const checkboxes = dialog.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach((checkbox) => {
-                if (checkbox.checked) {
-                    this.selectedCategories.add(checkbox.value);
-                }
-            });
-            this.showFilteredPosts();
-            dialog.style.display = 'none';
+        
+       
+    const showPostsButton = document.createElement('button');
+    showPostsButton.textContent = 'Mostra Post';
+    showPostsButton.addEventListener('click', () => {
+        this.selectedCategories.clear();
+        const checkboxes = dialog.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                this.selectedCategories.add(checkbox.value);
+            }
         });
+        Storage.saveData(Array.from(this.selectedCategories));
 
-
-
-        dialogInput.appendChild(okButton);
+        this.showFilteredPosts();
+        dialog.style.display = 'none'; // Nascondi la dialog
+    });
+    
+        const addCategoryButton = document.createElement('button');
+        addCategoryButton.textContent = 'Aggiungi Categoria';
+        addCategoryButton.addEventListener('click', () => {
+            const newCategory = document.getElementById('category').value.trim();
+            if (newCategory !== '') {
+                this.categoryArray.push(newCategory);
+    
+                const newCheckbox = document.createElement('input');
+                newCheckbox.type = 'checkbox';
+                newCheckbox.name = newCategory;
+                newCheckbox.value = newCategory;
+                newCheckbox.id = newCategory;
+    
+                const newLabel = document.createElement('label');
+                newLabel.for = newCategory;
+                newLabel.textContent = newCategory;
+    
+                dialogInput.appendChild(newCheckbox);
+                dialogInput.appendChild(newLabel);
+                dialogInput.appendChild(document.createElement('br'));
+    
+                this.selectedCategories.add(newCategory);
+                Storage.saveData(Array.from(this.selectedCategories));
+    
+                this.showFilteredPosts();
+            }
+        });
+    
+        dialogInput.appendChild(showPostsButton);
+        dialogInput.appendChild(addCategoryButton);
         dialog.appendChild(dialogInput);
+        mainContainer.appendChild(dialog);
     }
 
-    showFilteredPosts() {
-        const filteredPosts = this.posts.filter((post) => this.selectedCategories.has(post.category));
-        const postContainer = document.getElementById('postContainer');
-        postContainer.innerHTML =`
-        <div class="card-post">
-            <div class="card-header">
-                <span class="span-created">${toHumanTime(this.created)}</span>
-                <div class="h3-title">
-                    <h3>${this.title}</h3>
-                </div>
-                <div class="h3-author">
-                    <h3>${this.author_fullname}</h3>
-                </div>
-                <div class="img-container">
-                    <img src="${this.thumbnail}" alt="">
-                </div>
-                <div class="details">
-                    <a href="${this.url}" target="_blank" rel="noopener noreferrer"></a>
-                </div>
-            </div>
-        </div>`;
 
-        filteredPosts.forEach((post) => {
-            const cardComponent = document.createElement('post-card');
-            cardComponent.post = post;
-            postContainer.appendChild(cardComponent);
-        
-       ;});
-        
-                Storage.saveData(this.selectedCategories);
+        showFilteredPosts() {
+         
+            this.posts.forEach((post) => {
+                const cardComponent = document.createElement('post-card');
+                cardComponent.post = post;
+                postContainer.appendChild(cardComponent);
+            });
+        Storage.saveData(this.selectedCategories);
     }
 
     showTopPost() {
-        const url = `https://www.reddit.com/r/${category}/new.json`
-        return url + '/top'
+        JSON.parse(localStorage.getItem('posts')).map((category) =>
+            fetch(`https://www.reddit.com/r/popular/new.json`)
+                .then((resp) => resp.json()).then(res => {
+                    if (res.data && res.data.children) {
+                        for (const data of res.data.children) {
+                            this.posts.push(data.data);
+                        }
+                    }
+                    this.showFilteredPosts();
+                })
+                .catch((error) => {
+                    console.error(`Error fetching posts for ${category}:`, error);
+                    return { data: { children: [] } };
+                })
+        );
     }
-    
 }
 
 customElements.define('pref-dialog', CategoryPosts);

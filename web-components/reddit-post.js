@@ -8,7 +8,7 @@ class PostCardComponent extends HTMLElement {
         this.render();
     }
 
-    render(post) {
+    render() {
         this.shadowRoot.innerHTML = '';
         if (this.post) {
 
