@@ -53,6 +53,7 @@ class SideBarComponent extends HTMLElement {
 
   
   render() {
+    
     const sidebar = document.createElement('nav');
     sidebar.id = 'sidebar-nav';
 
@@ -61,11 +62,10 @@ class SideBarComponent extends HTMLElement {
     input.id = 'new-category-input';
     input.placeholder = 'Aggiungi una categoria';
 
-    const addCatBtn = document.createElement('button');
-    addCatBtn.id = 'add-cat-btn';
-    addCatBtn.textContent = 'Aggiungi Categoria';
+    const addCatBtn = document.getElementById('add-category');
+   
     addCatBtn.addEventListener('click', () => {
-      this.addCategory();
+      this.addCategory(input);
     });
 
     sidebar.appendChild(input);
@@ -91,7 +91,8 @@ class SideBarComponent extends HTMLElement {
   }
 
   addCategory() {
-    const input = this.shadowRoot.getElementById('new-category-input');
+  
+    const input = document.getElementById('new-category-input');
     const newCategory = input.value.trim();
     if (newCategory !== '') {
       const categoryValue = newCategory.toLowerCase().replace(/\s/g, '_');
@@ -127,7 +128,7 @@ class SideBarComponent extends HTMLElement {
 
   renderButtons() {
     const sidebar = document.getElementById('sidebar-nav');
-    sidebar.innerHTML = ''; // Pulisci il contenuto esistente
+    //sidebar.innerHTML = ''; // Pulisci il contenuto esistente
 
     for (const category of this.categoryArray) {
       const categoryBtn = document.createElement('button');

@@ -33,24 +33,31 @@ class PostCardComponent extends HTMLElement {
                 width:60%;
                 border-radius:20px;
             }
-            .h3-title{
+            .h2-title{
                 width:100%;
                 flex-wrap:wrap;
                 font-size: 20px;
                 font-weight: bold;
                 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             }
-            .h3-author{
-                font-size: large;
+            h5{
+                font-size:24px
                 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            }
+            .card-header{
+                display:flex;
+                justify-content: space-around;
+                align-items:center
+                
+            }
+            .span-created{
+                font-size: 12px;
             }
             .details{
                 display: flex;
                 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            }
-            .details{
-                flex:1;
-                display:flex;
+           
+               
                 flex-direction:column;
                 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             }
@@ -63,20 +70,22 @@ class PostCardComponent extends HTMLElement {
             this.shadowRoot.innerHTML += `
                 <div class="card-post">
                     <div class="card-header">
-                        <span class="span-created">${toHumanTime(this.post.created)}</span>
-                        <div class="h3-title">
-                            <h3>${this.post.title}</h3>
+                    
+                    <h5>${this.post.author_fullname}</h5>
+                    
+                    <span class="span-created">${toHumanTime(this.post.created)}</span>
                         </div>
-                        <div class="h3-author">
-                            <h3>${this.post.author_fullname}</h3>
+                        <div class="h2-title">
+                        <h2>${this.post.title}</h2>
+                            
                         </div>
                         <div class="img-container">
-                            <img src="${this.post.thumbnail}" alt="">
+                            <img src="${this.post.thumbnail}" alt="thumbails">
                         </div>
                         <div class="details">
                             <a href="${this.post.url}" target="_blank" rel="noopener noreferrer"></a>
                         </div>
-                    </div>
+                   
                 </div>`;
         }
     }

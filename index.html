@@ -13,8 +13,9 @@
     <header>
         <div class="header">
             <img id="logo-reddit" src="./public/Reddit-logo.png" alt="">
-            <input type="search" name="search" placeholder="    Search Reddit" id="search">
+            <input type="search" name="search" placeholder="Search Reddit" id="search">
             <div class="btn-header">
+                <button id="add-category"> Aggiungi categoria </button>
                 <button id="download-app-btn"><a href="https://play.google.com/store/apps/details?id=com.reddit.frontpage&hl=en&pli=1" target="_blank" rel="noopener noreferrer">Scarica App</a>  </button>
                 <button id="login-btn"><a href="https://www.reddit.com/login">Login </a> </button>
             </div>
@@ -26,11 +27,12 @@
         <section class="list">
             <aside class="sidebar">
                 <div class="nav-header">
-                    Categorie
-                    </header>
-                    <nav id="sidebar-nav">
-                        <input type="text" id="new-category-input" placeholder="Aggiungi una categoria">
+                    Categorie </div>
                 
+                    <nav id="sidebar-nav">
+                        
+                        <input type="text" id="new-category-input" placeholder="Aggiungi una categoria">
+                <button id="add-category" > Aggiungi categoria </button>
                         
                     </nav>
             </aside>
@@ -38,7 +40,7 @@
 
         <super-nav> </super-nav>
         <div id="postContainer"></div>
-
+    </main>
         <div id="dialog-container"class="dialog-container">
             <div id="dialog">
                 <label for="category"> Aggiungi una categoria </label>
@@ -50,7 +52,7 @@
             </div>
             <button>Cancel</button>
         </div>
-    </main>
+  
 
     <footer></footer>
 

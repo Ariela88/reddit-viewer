@@ -1,18 +1,34 @@
 body {
-    width: 100vh;
+    width: 100%;
     box-sizing: border-box;
     background-color: rgb(36, 35, 35);
 
 }
 
-.header{
-            
+.header{background-color: #adadad;
+            position: fixed;
+            top:0;
+            left: 0;
+    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
     margin:0;
     padding:0;
    
+}
+
+.list{
+    position: fixed;
+    left: 0;
+    top:100px;
+
+
+}
+
+a{
+    text-decoration: none;
+    
 }
 
 .btn-header {
@@ -40,6 +56,7 @@ body {
     width: 60%;
     height: 50px;
     border-radius:28px;
+    padding-left: 40px;
 
 }
 #logo-reddit{
@@ -61,7 +78,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: auto;
+    margin-top: 80px;
+    padding-right: 100px;
 }
 
 .main-wrapper{
@@ -71,8 +89,10 @@ body {
 
 #dialog-container {
 
+width: 50%;
+margin-left: 300px;
 
-display: none;
+display: flex;
     height: 80vh;
     display: flex;
     flex-direction: column;
@@ -116,21 +136,34 @@ label {
 }
 
 post-card {
-    border: 1px solid black;
+    border: 2px solid rgb(255, 255, 255);
     display: flex;
+    flex-direction: column;
 width: 500px;
 text-align: center;
 color: white;
+border-radius: 20px;
+height: fit-content;
+font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     margin-left: 200px;
-margin-bottom: 30px;}
+margin-bottom: 30px;
+
+}
+
+
 
 .nav-header{
     font-size: 20px;
     color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+text-align: center;
+display: flex;
+flex-direction: column;
+gap: 20px;
 }
 
 #sidebar-nav{

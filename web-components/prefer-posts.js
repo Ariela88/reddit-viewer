@@ -46,9 +46,8 @@ class CategoryPosts extends HTMLElement {
         this.shadowRoot.appendChild(mainContainer);
         mainContainer.classList.add('main-container');
 
-        const dialog = document.createElement('div');
-        dialog.id = 'dialog';
-        dialog.classList.add('dialog');
+        const dialog = document.getElementById('dialog-container');
+        
 
         const dialogInput = document.createElement('div');
         dialogInput.classList.add('dialog-input');
@@ -86,7 +85,7 @@ class CategoryPosts extends HTMLElement {
         Storage.saveData(Array.from(this.selectedCategories));
 
         this.showFilteredPosts();
-        dialog.style.display = 'none'; // Nascondi la dialog
+        dialog.style.display = 'none';
     });
     
         const addCategoryButton = document.createElement('button');
