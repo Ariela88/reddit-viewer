@@ -20,10 +20,10 @@ class PostCardComponent extends HTMLElement {
                 display: flex;
                 width: 70%;
                 flex-direction: column;
-                background-color: white;
                 border-radius: 16px;
                 padding: 16px;
                 margin-bottom: 40px;
+                
                
                
                 
@@ -38,7 +38,7 @@ class PostCardComponent extends HTMLElement {
                 flex-wrap:wrap;
                 font-size: 20px;
                 font-weight: bold;
-                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+                font-family: 'Neucha', cursive;
             }
             h5{
                 font-size:24px
@@ -68,7 +68,7 @@ class PostCardComponent extends HTMLElement {
             </style>`;
 
             this.shadowRoot.innerHTML += `
-                <div class="card-post">
+                <div class="card">
                     <div class="card-header">
                     
                     <h5>${this.post.author_fullname}</h5>

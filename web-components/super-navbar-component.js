@@ -56,9 +56,11 @@ class SideBarComponent extends HTMLElement {
     const mainWrapper = document.getElementById('main-wrapper')
     const sidebar = document.getElementById('sidebar-nav');
 
-    const showNewPost = document.getElementById('top-btn-post')
+    const showPopPost = document.getElementById('pop-btn-post')
 
-    showNewPost.addEventListener('click', () => this.showTopPost())
+    showPopPost.addEventListener('click', () => this.showPopularPost())
+
+ 
 
 
 
@@ -76,8 +78,7 @@ class SideBarComponent extends HTMLElement {
 
 
     const categoriesContainer = document.createElement('div');
-    const addCatBtn = document.getElementById('add-category');
-    const input = document.getElementById('new-category');
+    
 
 
 
@@ -89,32 +90,6 @@ class SideBarComponent extends HTMLElement {
       });
       categoriesContainer.appendChild(categoryBtn);
     }
-    // addCatBtn.addEventListener('click', () => {
-    //   const newCategory = document.getElementById('new-category').value.trim();
-    //   if (newCategory !== '') {
-    //     this.categoryArray.push(newCategory);
-    //     console.log(this.categoryArray)
-
-    //     const newCategory = document.createElement('button');
-
-    //     newCategory.name = newCategory;
-    //     newCategory.value = newCategory;
-    //     newCategory.id = newCategory;
-
-
-
-    //     sidebar.appendChild(newCategory);
-
-
-
-    //     this.selectedCategories.add(newCategory);
-    //     Storage.saveData(Array.from(this.selectedCategories));
-
-    //     this.renderButtons();
-
-    //   };
-    // })
-
 
     sidebar.appendChild(categoriesContainer);
   }
@@ -156,13 +131,34 @@ class SideBarComponent extends HTMLElement {
     });
 
   };
-  showTopPost() {
+  showPopularPost() {
 
     this.shadowRoot.innerHTML = ''
     JSON.parse(localStorage.getItem('posts')).map((category) =>
       fetch(`https://www.reddit.com/r/popular/new.json`)
         .then((resp) => resp.json()).then(res => {
-          console.log(res)
+         
+          if (res.data && res.data.children) {
+            for (const data of res.data.children) {
+              this.postsArray.push(data.data)
+            }
+          }
+          this.showFilteredPosts();
+        })
+        .catch((error) => {
+          console.error(`Error fetching posts:`, error);
+          return { data: { children: [] } };
+        })
+    );
+  }
+
+  showNewPost() {
+
+    this.shadowRoot.innerHTML = ''
+    JSON.parse(localStorage.getItem('posts')).map((category) =>
+      fetch(`https://www.reddit.com/r/new/new.json`)
+        .then((resp) => resp.json()).then(res => {
+         
           if (res.data && res.data.children) {
             for (const data of res.data.children) {
               this.postsArray.push(data.data)

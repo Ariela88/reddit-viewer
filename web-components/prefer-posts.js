@@ -17,6 +17,10 @@ class CategoryPosts extends HTMLElement {
     connectedCallback() {
         if (this.selectedCategories.size > 0) {
             this.loadPosts();
+            const openDialog = document.getElementById('add-category');
+        openDialog.addEventListener('click',()=>{document.getElementById('dialog-container').style.display = 'flex';
+        this.shadowRoot.innerHTML = '';
+        this.render()})
         } else {
             this.render();
         }
@@ -38,23 +42,33 @@ class CategoryPosts extends HTMLElement {
                     return { data: { children: [] } };
                 })
         );
+     document.getElementById('dialog-container').style.display = 'none';
+     
     }
 
     render() {
         this.shadowRoot.innerHTML = '';
-        const mainContainer = document.createElement('div');
-        this.shadowRoot.appendChild(mainContainer);
-        mainContainer.classList.add('main-container');
+       
 
         const dialog = document.getElementById('dialog-container');
-        
+        dialog.innerHTML = ""
 
         const dialogInput = document.createElement('div');
         dialogInput.classList.add('dialog-input');
+        
+        const categoryAddInput = document.createElement('input')
+        categoryAddInput.type = 'text';
+        categoryAddInput.id = 'category';
+        categoryAddInput.type = 'category';
+        categoryAddInput.type = 'category';
+        categoryAddInput.placeholder = 'Scrivi la categoria che vuoi aggiungere';
+
 
         for (let i = 0; i < this.categoryArray.length; i++) {
             const input = this.categoryArray[i];
+            const inputCard = document.createElement('div')
             const checkbox = document.createElement('input');
+            checkbox.classList.add('check-box')
             checkbox.type = 'checkbox';
             checkbox.name = input;
             checkbox.value = input;
@@ -62,10 +76,11 @@ class CategoryPosts extends HTMLElement {
 
             const label = document.createElement('label');
             label.for = input;
-            label.textContent = input;
-
-            dialogInput.appendChild(checkbox);
-            dialogInput.appendChild(label);
+            label.textContent = input;  
+            inputCard.classList.add('input-card')
+            inputCard.appendChild(checkbox);
+            inputCard.appendChild(label);
+            dialogInput.appendChild(inputCard)
             dialogInput.appendChild(document.createElement('br'));
             
         }
@@ -87,6 +102,14 @@ class CategoryPosts extends HTMLElement {
         this.showFilteredPosts();
         dialog.style.display = 'none';
     });
+
+    const exitDialog = document.createElement('button');
+    exitDialog.textContent = 'Cancel';
+    exitDialog.addEventListener('click', () => {
+      
+        this.showFilteredPosts();
+        dialog.style.display = 'none';
+    });
     
         const addCategoryButton = document.createElement('button');
         addCategoryButton.textContent = 'Aggiungi Categoria';
@@ -94,19 +117,23 @@ class CategoryPosts extends HTMLElement {
             const newCategory = document.getElementById('category').value.trim();
             if (newCategory !== '') {
                 this.categoryArray.push(newCategory);
+                const inputCard = document.createElement('div')
     
+                
                 const newCheckbox = document.createElement('input');
                 newCheckbox.type = 'checkbox';
                 newCheckbox.name = newCategory;
                 newCheckbox.value = newCategory;
                 newCheckbox.id = newCategory;
+                newCheckbox.classList.add('check-box')
     
                 const newLabel = document.createElement('label');
                 newLabel.for = newCategory;
                 newLabel.textContent = newCategory;
-    
-                dialogInput.appendChild(newCheckbox);
-                dialogInput.appendChild(newLabel);
+                inputCard.classList.add('input-card')
+                inputCard.appendChild(newCheckbox);
+                inputCard.appendChild(newLabel);
+                dialogInput.appendChild(inputCard)
                 dialogInput.appendChild(document.createElement('br'));
     
                 this.selectedCategories.add(newCategory);
@@ -115,11 +142,17 @@ class CategoryPosts extends HTMLElement {
                 this.showFilteredPosts();
             }
         });
-    
-        dialogInput.appendChild(showPostsButton);
-        dialogInput.appendChild(addCategoryButton);
+
+        const btnDialogContainer = document.createElement('div')
+        btnDialogContainer.classList.add('btn-dialog-container')
+        
         dialog.appendChild(dialogInput);
-        mainContainer.appendChild(dialog);
+        dialog.appendChild(categoryAddInput)
+        btnDialogContainer.appendChild(addCategoryButton);
+        btnDialogContainer.appendChild(showPostsButton);
+        btnDialogContainer.appendChild(exitDialog)
+        dialog.appendChild(btnDialogContainer)
+       
     }
 
 
@@ -130,13 +163,16 @@ class CategoryPosts extends HTMLElement {
                 cardComponent.post = post;
                 postContainer.appendChild(cardComponent);
             });
+            
         Storage.saveData(this.selectedCategories);
+        
     }
 
     showTopPost() {
         JSON.parse(localStorage.getItem('posts')).map((category) =>
-            fetch(`https://www.reddit.com/r/popular/new.json`)
+            fetch(`https://www.reddit.com/r/${category}/popular/new.json`)
                 .then((resp) => resp.json()).then(res => {
+                    
                     if (res.data && res.data.children) {
                         for (const data of res.data.children) {
                             this.posts.push(data.data);
