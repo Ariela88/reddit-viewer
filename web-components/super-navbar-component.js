@@ -1,99 +1,42 @@
 class SideBarComponent extends HTMLElement {
-
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
     this.postsArray = [];
-
     this.selectedCategories = new Set();
-
-
-    this.categoryArray = [
-      {
-        "name": "Videogiochi",
-        "value": "gaming"
-      },
-      {
-        "name": "Storia",
-        "value": "history"
-      }, {
-        "name": "Animali",
-        "value": "animals_and_pets"
-      }, {
-        "name": "Film",
-        "value": "movies"
-      }, {
-        "name": "Scienza",
-        "value": "science"
-      }, {
-        "name": "Cibo",
-        "value": "food_and_drink"
-      }, {
-        "name": "Viaggi",
-        "value": "travel"
-      }, {
-        "name": "Musica",
-        "value": "music"
-      },
-      {
-        "name": "Programmazione",
-        "value": "programming"
-      },
-      {
-        "name": "Hobby",
-        "value": "hobbies"
-      }
-    ];
-
+    this.loadSelectedCategories();
   }
 
   connectedCallback() {
     this.render();
   }
 
-
-  render() {
-    const mainWrapper = document.getElementById('main-wrapper')
-    const sidebar = document.getElementById('sidebar-nav');
-
-    const showPopPost = document.getElementById('pop-btn-post')
-
-    showPopPost.addEventListener('click', () => this.showPopularPost())
-
- 
+  loadSelectedCategories() {
+    const savedCategories = Storage.loadData();
+    this.selectedCategories = new Set(savedCategories);
+}
 
 
+render() {
+  const sidebar = document.getElementById('sidebar-nav');
+  sidebar.innerHTML = ''; // Clear the existing content
 
+  const categoriesContainer = document.createElement('div');
+  categoriesContainer.classList.add('category-container')
 
-
-
-
-    this.renderButtons();
+  for (const category of this.selectedCategories) {
+    const categoryBtn = document.createElement('button');
+    categoryBtn.textContent = category;
+    categoryBtn.addEventListener('click', () => {
+      this.loadPostsBtn(category);
+    });
+    categoriesContainer.appendChild(categoryBtn);
   }
 
-  renderButtons() {
-    const sidebar = document.getElementById('sidebar-nav');
-    //sidebar.innerHTML = ''; // Pulisci il contenuto esistente
+  sidebar.appendChild(categoriesContainer);
+}
 
-
-
-    const categoriesContainer = document.createElement('div');
-    
-
-
-
-    for (const category of this.categoryArray) {
-      const categoryBtn = document.createElement('button');
-      categoryBtn.textContent = category.name;
-      categoryBtn.addEventListener('click', () => {
-        this.loadPostsBtn(category.value);
-      });
-      categoriesContainer.appendChild(categoryBtn);
-    }
-
-    sidebar.appendChild(categoriesContainer);
-  }
-
+  
   addCategory() {
 
   }

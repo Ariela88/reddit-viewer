@@ -66,13 +66,18 @@ class CategoryPosts extends HTMLElement {
 
         for (let i = 0; i < this.categoryArray.length; i++) {
             const input = this.categoryArray[i];
-            const inputCard = document.createElement('div')
+            const inputCard = document.createElement('div');
             const checkbox = document.createElement('input');
             checkbox.classList.add('check-box')
             checkbox.type = 'checkbox';
             checkbox.name = input;
             checkbox.value = input;
             checkbox.id = input;
+
+            
+            if (this.selectedCategories.has(input)) {
+                checkbox.checked = true;
+            }
 
             const label = document.createElement('label');
             label.for = input;
@@ -98,11 +103,10 @@ class CategoryPosts extends HTMLElement {
             }
         });
         Storage.saveData(Array.from(this.selectedCategories));
-
-        this.showFilteredPosts();
-        dialog.style.display = 'none';
+        
+        this.loadPosts();
+        dialog.style.display = 'none'; 
     });
-
     const exitDialog = document.createElement('button');
     exitDialog.textContent = 'Cancel';
     exitDialog.addEventListener('click', () => {
@@ -155,18 +159,20 @@ class CategoryPosts extends HTMLElement {
        
     }
 
-
-        showFilteredPosts() {
-         
-            this.posts.forEach((post) => {
-                const cardComponent = document.createElement('post-card');
-                cardComponent.post = post;
-                postContainer.appendChild(cardComponent);
-            });
-            
-        Storage.saveData(this.selectedCategories);
+    showFilteredPosts() {
+        const postContainer = document.getElementById('postContainer');
+        postContainer.innerHTML = '';
+    
+        this.posts.forEach((post) => {
+            const cardComponent = document.createElement('post-card');
+            cardComponent.post = post;
+            postContainer.appendChild(cardComponent);
+        });
         
+        Storage.saveData(this.selectedCategories); 
+       
     }
+    
 
     showTopPost() {
         JSON.parse(localStorage.getItem('posts')).map((category) =>
