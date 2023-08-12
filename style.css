@@ -100,8 +100,8 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 80px;
-    padding-right: 100px;
+    margin-top: 120px;
+    
 }
 
 #main-wrapper {
@@ -278,6 +278,23 @@ post-card {
     color: rgb(198, 13, 13);
 }
 
+.btn-page-container{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top:70px;
+    gap: 20px;
+}
+
+#next-page,#previous-page{
+    width: 100px;
+    height: 30px;
+    border-radius: 20px;
+    border: none;
+}
+
 @media (max-width: 800px) {
 
     body{
@@ -418,4 +435,15 @@ post-card {
         width: 100%;
         font-size: 12px;
     }
+    
+    .btn-page-container{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top:160px;
+        gap: 20px;
+    }
+    
 }
