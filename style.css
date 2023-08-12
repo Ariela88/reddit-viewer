@@ -370,13 +370,13 @@ post-card {
 
     post-card{
         width: 95%;
-        margin: auto;
+        margin: 0;
 
     }
 
     #postContainer{
         margin-top: 220px;
-        margin-left: 70px;
+      
     }
 
     .header{
