@@ -19,7 +19,7 @@ class SideBarComponent extends HTMLElement {
 
 render() {
   const sidebar = document.getElementById('sidebar-nav');
-  sidebar.innerHTML = ''; // Clear the existing content
+  sidebar.innerHTML = ''; 
 
   const categoriesContainer = document.createElement('div');
   categoriesContainer.classList.add('category-container')
