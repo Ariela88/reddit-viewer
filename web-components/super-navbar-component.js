@@ -28,38 +28,20 @@ render() {
     const categoryBtn = document.createElement('button');
     categoryBtn.textContent = category;
     categoryBtn.addEventListener('click', () => {
-      this.loadPostsBtn(category);
+      const dialog = new CategoryPosts()
+      dialog.loadPosts(category);
+     
     });
+ 
     categoriesContainer.appendChild(categoryBtn);
   }
 
   sidebar.appendChild(categoriesContainer);
 }
 
-  
-  addCategory() {
-
-  }
-  loadPostsBtn(value) {
-
-    this.postsArray = []
-    fetch(`https://www.reddit.com/r/${value}/new.json`)
-      .then((resp) => resp.json()).then(res => {
-        if (res.data && res.data.children) {
-          for (const data of res.data.children) {
-            this.postsArray.push(data.data)
-          }
-        }
-        this.showFilteredPosts();
-      })
-      .catch((error) => {
-        console.error(`Error fetching posts for:`, error);
-        return { data: { children: [] } };
-      })
 
 
 
-  }
 
 
 
@@ -70,10 +52,11 @@ render() {
       cardComponent.post = post;
       postContainer.appendChild(cardComponent);
 
-      ;
     });
 
   };
+
+
   showPopularPost() {
 
     this.shadowRoot.innerHTML = ''

@@ -342,8 +342,10 @@ letter-spacing: 2px;
 
 .btn-dialog-container button {
     font-size: 12px;
-    width: fit-content;
-    border:none;
+   
+   
+  
+    
 }
 
 .btn-dialog-container{
@@ -352,7 +354,8 @@ letter-spacing: 2px;
     flex-wrap: wrap;
     margin: 0;
     padding: 0;
-    gap: 4px;
+    gap: 20px;
+    align-items: flex-start;
 }
 
 #category{
@@ -440,7 +443,8 @@ letter-spacing: 2px;
         margin: 0;
         display: fixed;
         top:30%;
-        left:0
+        left:0;
+        
     }
 
     .dialog-input{
@@ -448,7 +452,7 @@ letter-spacing: 2px;
         flex-wrap: wrap;
         margin: 0;
         padding: 0;
-        margin-top: 20px;
+       
         height: 80%;
     }
 
@@ -460,8 +464,8 @@ letter-spacing: 2px;
     .btn-page-container{
         display: flex;
         width: 100%;
-        align-items: center;
-        justify-content: center;
+        align-items: flex-start;
+        justify-content: flex-start;
         position: fixed;
         top:160px;
         gap: 20px;

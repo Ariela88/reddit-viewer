@@ -7,6 +7,7 @@ class CategoryPosts extends HTMLElement {
         this.posts = [];
         this.loadSelectedCategories();
         this.afterId = ''
+        
 
 
     }
@@ -109,14 +110,16 @@ class CategoryPosts extends HTMLElement {
                 }
             });
             Storage.saveData(Array.from(this.selectedCategories));
-
+            const side = new SideBarComponent()
+            side.loadSelectedCategories()
+            side.render()
             this.loadPosts();
             dialog.style.display = 'none';
         });
         const exitDialog = document.createElement('button');
         exitDialog.textContent = 'Cancel';
         exitDialog.addEventListener('click', () => {
-
+            
             this.showFilteredPosts();
             dialog.style.display = 'none';
         });
@@ -176,6 +179,7 @@ class CategoryPosts extends HTMLElement {
         });
 
         Storage.saveData(this.selectedCategories);
+        
 
     }
 
