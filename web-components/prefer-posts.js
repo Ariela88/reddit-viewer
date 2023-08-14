@@ -156,11 +156,11 @@ class CategoryPosts extends HTMLElement {
         const btnDialogContainer = document.createElement('div')
         btnDialogContainer.classList.add('btn-dialog-container')
 
+        dialogInput.appendChild(categoryAddInput)
         dialog.appendChild(dialogInput);
-        dialog.appendChild(categoryAddInput)
-        btnDialogContainer.appendChild(addCategoryButton);
         btnDialogContainer.appendChild(showPostsButton);
         btnDialogContainer.appendChild(exitDialog)
+        btnDialogContainer.appendChild(addCategoryButton);
         dialog.appendChild(btnDialogContainer)
 
     }

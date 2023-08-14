@@ -7,9 +7,19 @@ body {
     box-sizing: border-box;
     background-color: rgb(36, 35, 35);
     font-family: 'Raleway', sans-serif;
+    background-image: url(./public/newspaper.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
 
 
 }
+
+button{
+    cursor: pointer;
+}
+
+
 
 button {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -38,6 +48,7 @@ button {
 }
 
 .sidebar {
+    background-color: #f8995ad5;
     position: fixed;
     left: 0;
     top: 100px;
@@ -68,6 +79,7 @@ a {
     font-weight: 500;
 
 }
+
 
 #search {
     background-color: #d9d9d9;
@@ -111,7 +123,7 @@ a {
 
 #dialog-container {
 
-    width: 800px;
+    width: 500px;
     height: 400px;
 
     position: fixed;
@@ -120,14 +132,9 @@ a {
     left: 20%;
     display: flex;
 
+justify-content: center;
 
-
-    flex-direction: column;
-
-
-    justify-content: center;
-
-    background-color: rgb(59, 59, 59);
+    background-color:rgb(178, 48, 1);
     color: white;
     padding: 40px 20px;
 
@@ -157,9 +164,10 @@ label {
 .btn-dialog-container {
     width: 100%;
     display: flex;
+    flex-direction: column;
 
-    justify-content: space-evenly;
-    align-items: center;
+    justify-content: flex-end;
+    align-items: flex-end;
     
    
 
@@ -180,12 +188,14 @@ label {
 
 }
 
+
 #category {
-    width: 50%;
+   
+ 
 
     height: 20px;
-    margin-bottom: 30px;
-    margin-left: 50px;
+   
+    
 }
 
 .btn-dialog-container button:hover {
@@ -199,11 +209,12 @@ label {
 
 .dialog-input {
     height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    padding-top: 30px;
-    margin-left: 50px;
+    /* padding-top: 30px;
+    margin-left: 50px; */
 
 
 
@@ -212,13 +223,14 @@ label {
 }
 
 post-card {
-    border: 2px solid rgb(255, 255, 255);
+    background-color: #f8995a;
+    
     display: flex;
     flex-direction: column;
     width: 500px;
     text-align: center;
-    color: white;
-    border-radius: 20px;
+    
+  
     height: fit-content;
 
     box-shadow: 10px 12px 14px 4px #a63800;
@@ -235,8 +247,9 @@ post-card {
 .nav-header {
     font-size: 24px;
     text-transform: uppercase;
-    color: white;
-
+    font-weight: 600;
+    font-family: 'Neucha', cursive;
+letter-spacing: 2px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -244,8 +257,9 @@ post-card {
 }
 
 #sidebar-nav {
+    background-color: #f8995aed;
     border-right: 1px solid grey;
-    padding: 30px;
+    height: max-content;
     width: 200px;
     display: flex;
     flex-direction: column;
@@ -254,13 +268,14 @@ post-card {
 }
 
 #sidebar-nav button {
+    background-color: #f8995aed;
     border: none;
     background-color: transparent;
     color: white;
     font-size: 20px;
     padding: 10px;
     width: 100%;
-    border-bottom: 0.2px solid rgb(103, 103, 103);
+ 
     font-family: 'Neucha', cursive;
 
 
@@ -269,7 +284,7 @@ post-card {
 
 
 #sidebar-nav button:hover {
-    background-color: rgb(219, 219, 219);
+    background-color: orangered;
     color: black;
 }
 
@@ -311,11 +326,13 @@ post-card {
     }
 
 .category-container{
+    border-bottom: 2px solid white;
+    background-color: orangered;
     display: flex;
     flex-wrap: wrap;
     padding: 0;
     gap: 4px;
-    background-color: #d9d9d9;
+   
     gap: 20px;
     z-index: 999;
     margin: 0;
@@ -326,6 +343,7 @@ post-card {
 .btn-dialog-container button {
     font-size: 12px;
     width: fit-content;
+    border:none;
 }
 
 .btn-dialog-container{
@@ -343,6 +361,7 @@ post-card {
 
 
     .sidebar{
+        background-color: #f8995a;
         width: 100%;
         z-index: 999;
         position: fixed;
@@ -352,16 +371,18 @@ post-card {
     }
 
     #sidebar-nav button{
+        background-color: orangered;
         color: black;
         font-size: 16px;
         width: fit-content;
-        border-right: 0.2px solid black;
+        
 
 
     }
 
     
     #sidebar-nav{
+        background-color: #f8995a;
         display: flex;
         flex-wrap: wrap;
         padding: 0;

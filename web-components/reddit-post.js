@@ -14,13 +14,14 @@ class PostCardComponent extends HTMLElement {
 
             this.shadowRoot.innerHTML += `<style>
             .card{
+                background-color: #f8995a;
                 width:400px;
                 position:relative;
                 float:right;
                 display: flex;
                 width: 70%;
                 flex-direction: column;
-                border-radius: 16px;
+                
                 padding: 16px;
                 margin-bottom: 40px;
                 
@@ -45,6 +46,7 @@ class PostCardComponent extends HTMLElement {
                 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             }
             .card-header{
+                background-color: orangered;
                 display:flex;
                 justify-content: space-around;
                 align-items:center
