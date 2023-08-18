@@ -1,63 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reddit Task</title>
     <link rel="stylesheet" href="./style.css">
-
 </head>
-
 <body>
     <header>
         <div class="header">
-            <img id="logo-reddit" src="./public/Reddit-logo.png" alt="">
+            <img id="logo-reddit" src="./public/Reddit-Horizontal-White-Logo.wine.png" alt="">
             <input type="search" name="search" placeholder="Search Reddit" id="search">
             <div class="btn-header">
-                <button id="add-category"> ＋ Aggingi Categorie  </button>
-                <button id="download-app-btn"><a href="https://play.google.com/store/apps/details?id=com.reddit.frontpage&hl=en&pli=1" target="_blank" rel="noopener noreferrer">Scarica App</a>  </button>
-                <button id="login-btn"><a href="https://www.reddit.com/login">Login </a> </button>
+                <button id="add-category"> ＋ Aggingi Categorie </button>
+                <button id="download-app-btn"><a href="https://play.google.com/store/apps/details?id=com.reddit.frontpage&hl=en&pli=1" target="_blank" rel="noopener noreferrer">Scarica App</a></button>
+                <button id="login-btn"><a href="https://www.reddit.com/login">Login</a></button>
             </div>
         </div>
-        
     </header>
-    <main id="main-wrapper"class="main-wrapper">
-
+    <main id="main-wrapper" class="main-wrapper">
         <section class="list">
             <aside class="sidebar">
                 <div class="nav-header">
-                    Categorie </div>
-                
-                    <nav id="sidebar-nav">
-                        <button id="pop-btn-post"> Show Popular Posts </button>
-                    </nav>
+                    Categorie
+                </div>
+                <nav id="sidebar-nav">
+                    <button id="pop-btn-post"> Show Popular Posts </button>
+                </nav>
             </aside>
         </section>
-
-        <super-nav> </super-nav>
-        
+        <super-nav></super-nav>
         <div id="postContainer"></div>
-    <div id="btn-page-container" class="btn-page-container"> 
-        <button id="previous-page">Previous</button>
-        <button id="next-page"> Next</button>
+        <div id="btn-page-container" class="btn-page-container">
+            <button id="previous-page">Previous</button>
+            <button id="next-page"> Next</button>
         </div>
-        <div id="dialog-container"> 
-                <pref-dialog></pref-dialog>
-            
+        <div id="dialog-container">
+            <pref-dialog></pref-dialog>
         </div>
     </main>
-
-    <footer id="footer"> </footer>
-
-
-
+    <footer id="footer"></footer>
     <script src="./storage-service/storage.js"></script>
-    <script src="./web-components/prefer-posts.js"></script>
+    <script type="module" src="./web-components/prefer-posts.js"></script>
+    
     <script src="./web-components/reddit-post.js"></script>
     <script src="./app.js"></script>
     <script src="./web-components/super-navbar-component.js"></script>
+    
 </body>
-
 </html>
-

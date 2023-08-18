@@ -1,46 +1,38 @@
+// const rssInput = document.createElement('input');
+// rssInput.type = 'text';
+// rssInput.id = 'rss-feed';
+// rssInput.placeholder = 'Inserisci URL feed RSS';
 
+// const addRssButton = document.createElement('button');
+// addRssButton.textContent = 'Aggiungi Feed RSS';
+// addRssButton.addEventListener('click', () => {
+//     const rssFeedUrl = document.getElementById('rss-feed').value.trim();
+//     if (rssFeedUrl !== '') {
+//         this.categoryArray.push(rssFeedUrl);
+//         this.selectedCategories.add(rssFeedUrl);
+//         Storage.saveData(Array.from(this.selectedCategories));
+//         const side = new SideBarComponent();
+//         side.loadSelectedCategories();
+//         side.render();
+//         this.loadPosts();
+//         dialog.style.display = 'none';
+//     }
+// });
 
-// const nextBtn = document.querySelector('#next-page');
-//          nextBtn.addEventListener('click', () => {
-//           console.log('avanti')
-//             for (const category of selectedCategories()) {
+// const parser = new RSSParser();
+// parser.parseURL(rssFeedUrl, (err, feed) => {
+//     if (!err && feed && feed.items) {
+//         for (const item of feed.items) {
+//             const post = {
+//                 title: item.title,
+//                 author_fullname: item.author,
+//                 created: new Date(item.pubDate).getTime() / 1000,
                
-//                 fetch(`https://www.reddit.com/r/${category}/hot/.json?after=${this.afterId}`)
-//                     .then(resp => resp.json())
-//                     .then(data => {
-//                         if (data.data && data.data.children) {
-//                             for (const postData of data.data.children) {
-//                                 this.posts.push(postData.data);
-//                             }
-//                         }
-//                         this.showFilteredPosts();
-//                     })
-//                     .catch(error => {
-//                         console.error(`Error fetching posts for ${category}:`, error);
-//                     });
-//             }
-//         });
-
-//         const previousBtn = document.querySelector('#previous-page');
-//          previousBtn.addEventListener('click', () => {
-
-//             console.log('indietro ')
-          
-//             for (const category of selectedCategories) {
-               
-//                 fetch(`https://www.reddit.com/r/${category}/hot/.json?before=${this.afterId}`)
-//                     .then(resp => resp.json())
-//                     .then(data => {
-//                         if (data.data && data.data.children) {
-//                             for (const postData of data.data.children) {
-//                                 this.posts.push(postData.data);
-//                             }
-//                         }
-//                         this.showFilteredPosts();
-//                     })
-//                     .catch(error => {
-//                         console.error(`Error fetching posts for ${category}:`, error);
-//                     });
-//             }
-//         });
-
+//             };
+//             this.posts.push(post);
+//         }
+//         this.showFilteredPosts();
+//     } else {
+//         console.error(`Errore nel caricamento del feed RSS ${rssFeedUrl}:`, err);
+//     }
+// });

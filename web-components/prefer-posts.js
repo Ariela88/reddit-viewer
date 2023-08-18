@@ -7,7 +7,7 @@ class CategoryPosts extends HTMLElement {
         this.posts = [];
         this.loadSelectedCategories();
         this.afterId = ''
-        
+
 
 
     }
@@ -53,8 +53,23 @@ class CategoryPosts extends HTMLElement {
 
     render() {
         this.shadowRoot.innerHTML = '';
+        const categoryLabels = {
+            'gaming': 'Giochi',
+            'history': 'Storia',
+            'animals_and_pets': 'Animali e Animali Domestici',
+            'movies':'Films',
+            'science': 'Scienza',
+            'food_and_drink':'Cibo e Bevande',
+            'travel': 'Viaggi',
+            'music': 'Musica',
+            'programming': 'Programmazione',
+            'hobbies': 'Passatempi'
+        
+        }
 
         
+
+
 
 
         const dialog = document.getElementById('dialog-container');
@@ -72,29 +87,29 @@ class CategoryPosts extends HTMLElement {
 
 
         for (let i = 0; i < this.categoryArray.length; i++) {
-            const input = this.categoryArray[i];
+            const categoryName = this.categoryArray[i];
+            const labelItalian = categoryLabels[categoryName];
+            
             const inputCard = document.createElement('div');
             const checkbox = document.createElement('input');
-            checkbox.classList.add('check-box')
+            checkbox.classList.add('check-box');
             checkbox.type = 'checkbox';
-            checkbox.name = input;
-            checkbox.value = input;
-            checkbox.id = input;
-
-
-            if (this.selectedCategories.has(input)) {
+            checkbox.name = categoryName;
+            checkbox.value = categoryName;
+            checkbox.id = categoryName;
+        
+            if (this.selectedCategories.has(categoryName)) {
                 checkbox.checked = true;
             }
-
+        
             const label = document.createElement('label');
-            label.for = input;
-            label.textContent = input;
-            inputCard.classList.add('input-card')
+            label.for = categoryName;
+            label.textContent = labelItalian; // Usa l'etichetta italiana invece del nome della categoria
+            inputCard.classList.add('input-card');
             inputCard.appendChild(checkbox);
             inputCard.appendChild(label);
-            dialogInput.appendChild(inputCard)
+            dialogInput.appendChild(inputCard);
             dialogInput.appendChild(document.createElement('br'));
-
         }
 
 
@@ -119,7 +134,7 @@ class CategoryPosts extends HTMLElement {
         const exitDialog = document.createElement('button');
         exitDialog.textContent = 'Cancel';
         exitDialog.addEventListener('click', () => {
-            
+
             this.showFilteredPosts();
             dialog.style.display = 'none';
         });
@@ -161,9 +176,9 @@ class CategoryPosts extends HTMLElement {
 
         dialogInput.appendChild(categoryAddInput)
         dialog.appendChild(dialogInput);
+        btnDialogContainer.appendChild(addCategoryButton);
         btnDialogContainer.appendChild(showPostsButton);
         btnDialogContainer.appendChild(exitDialog)
-        btnDialogContainer.appendChild(addCategoryButton);
         dialog.appendChild(btnDialogContainer)
 
     }
@@ -179,7 +194,7 @@ class CategoryPosts extends HTMLElement {
         });
 
         Storage.saveData(this.selectedCategories);
-        
+
 
     }
 

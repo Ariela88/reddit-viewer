@@ -7,9 +7,13 @@ body {
     box-sizing: border-box;
     background-color: rgb(36, 35, 35);
     font-family: 'Raleway', sans-serif;
-    background-image: url(./public/newspaper.jpg);
+    background-image: url(./public/background.jpg);
+    background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    
     
 
 
@@ -33,7 +37,7 @@ button {
 }
 
 .header {
-    background-color: #f8995a;
+    background-color: #282626;
     position: fixed;
     top: 0;
     left: 0;
@@ -44,14 +48,18 @@ button {
     margin: 0;
     padding: 0;
     z-index: 9999;
+    height: 100px;
 
 }
 
 .sidebar {
-    background-color: #f8995ad5;
+    background-color: #949392d5;
     position: fixed;
     left: 0;
-    top: 100px;
+    top: 140px;
+    width: 20%;
+
+    
 
 
 }
@@ -93,7 +101,9 @@ a {
 }
 
 #logo-reddit {
-    width: 10%;
+    width: 20%;
+    margin: 0;
+    padding: 0;
 }
 
 #download-app-btn {
@@ -105,14 +115,23 @@ a {
     color: white;
 }
 
+#login-btn a{
+    color:white;
+}
+
+#download-app-btn a{
+
+    color: black;
+}
+
 
 #postContainer {
-    width: 100%;
+    width:auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    margin-left: 10%;
     justify-content: center;
-    margin-top: 120px;
+    margin-top: 140px;
     
 }
 
@@ -128,15 +147,14 @@ a {
 
     position: fixed;
     z-index: 999;
-    top: 80px;
-    left: 20%;
+    top: 20%;
+    left: 30%;
     display: flex;
-
-justify-content: center;
-
-    background-color:rgb(178, 48, 1);
+    flex-direction: column;
+    background-color:#282626;
     color: white;
     padding: 40px 20px;
+    gap: 20px;
 
 }
 
@@ -164,7 +182,7 @@ label {
 .btn-dialog-container {
     width: 100%;
     display: flex;
-    flex-direction: column;
+    
 
     justify-content: flex-end;
     align-items: flex-end;
@@ -179,7 +197,7 @@ label {
     width: 150px;
     height: 50px;
     border-radius: 20px;
-    border: 2px solid white;
+   
     background-color: transparent;
     color: white;
     font-size: 20px;
@@ -223,22 +241,24 @@ label {
 }
 
 post-card {
-    background-color: #f8995a;
+    background-color: #beafa5;
     
     display: flex;
     flex-direction: column;
-    width: 500px;
+    width:80%;
     text-align: center;
+    float: right;
     
   
-    height: fit-content;
+    height: max-content;
 
-    box-shadow: 10px 12px 14px 4px #a63800;
+    
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin-left: 200px;
+    margin-left: 12%;
     margin-bottom: 30px;
+    margin-top: 0px;
 
 }
 
@@ -256,11 +276,12 @@ letter-spacing: 2px;
 
 }
 
+
 #sidebar-nav {
-    background-color: #f8995aed;
-    border-right: 1px solid grey;
-    height: max-content;
-    width: 200px;
+    background-color: #282626b8;
+    width: 100%;
+    height: 600px;
+    
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -299,15 +320,27 @@ letter-spacing: 2px;
     align-items: center;
     justify-content: center;
     position: fixed;
-    top:70px;
+    top:100px;
     gap: 20px;
+    z-index: 999;
+    background-color: #282626;
+    height: 40px;
 }
 
-#next-page,#previous-page{
+#next-page{
     width: 100px;
     height: 30px;
     border-radius: 20px;
     border: none;
+  
+}
+
+#previous-page{
+    width: 100px;
+    height: 30px;
+    border-radius: 20px;
+    border: none;
+  
 }
 
 @media (max-width: 800px) {
@@ -318,12 +351,25 @@ letter-spacing: 2px;
         flex-wrap: wrap;
         gap: 10px;
         justify-content: center;
+        margin: 0;
     }
 
     .header button{
         font-size: 12px;
        width: 20%;
+       width: 60px;
+      
     }
+
+    
+
+    #add-category {
+
+
+        
+        width: 100px;
+    }
+    
 
 .category-container{
     border-bottom: 2px solid white;
@@ -336,6 +382,8 @@ letter-spacing: 2px;
     gap: 20px;
     z-index: 999;
     margin: 0;
+    justify-content: center;
+    align-items: center;
     
    
 }
@@ -364,11 +412,11 @@ letter-spacing: 2px;
 
 
     .sidebar{
-        background-color: #f8995a;
+        background-color: transparent;
         width: 100%;
         z-index: 999;
         position: fixed;
-        top: 20%;
+        top: 15%;
         display: flex;
         flex-wrap: nowrap;
     }
@@ -379,27 +427,33 @@ letter-spacing: 2px;
         font-size: 16px;
         width: fit-content;
         
+        
 
 
     }
 
     
     #sidebar-nav{
-        background-color: #f8995a;
+        background-color: transparent;
         display: flex;
         flex-wrap: wrap;
         padding: 0;
         width: 100%;
+        height: 100px;
     }
 
     post-card{
-        width: 95%;
-        margin: 0;
+        width: 100%;
+        margin: 20px 0px;
+        font-size: smaller;
 
     }
 
     #postContainer{
         margin-top: 220px;
+        align-items: flex-start;
+        margin-left: 20px;
+        margin-right: 20px;
       
     }
 
@@ -409,7 +463,8 @@ letter-spacing: 2px;
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        height: 20%;
+        height: 15%;
+        justify-content: flex-start;
         
     }
 
@@ -418,8 +473,12 @@ letter-spacing: 2px;
     }
 
     .btn-header{
-       width: 90%;
+       width: 100%;
+     
+       gap: 10px;
        align-items: center;
+        justify-content: center;
+        
        
     }
 
@@ -463,12 +522,17 @@ letter-spacing: 2px;
     
     .btn-page-container{
         display: flex;
-        width: 100%;
-        align-items: flex-start;
-        justify-content: flex-start;
-        position: fixed;
-        top:160px;
+        width: 100vw;
+        align-items: center;
+        justify-content: center;
+        position: sticky;
+       margin:0;
+        bottom:0px;
+        left: 0px;
         gap: 20px;
+        z-index: 999;
+        padding: 0px;
+        background-color: transparent;
     }
     
 }

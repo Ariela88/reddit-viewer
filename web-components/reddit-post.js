@@ -14,12 +14,12 @@ class PostCardComponent extends HTMLElement {
 
             this.shadowRoot.innerHTML += `<style>
             .card{
-                background-color: #f8995a;
-                width:400px;
-                position:relative;
+                background-color: transparent;
+               
+                
                 float:right;
                 display: flex;
-                width: 70%;
+                width: 100%;
                 flex-direction: column;
                 
                 padding: 16px;
@@ -31,25 +31,27 @@ class PostCardComponent extends HTMLElement {
                
             }
             .img-container img{
-                width:60%;
+                width:70%;
                 border-radius:20px;
             }
             .h2-title{
                 width:100%;
                 flex-wrap:wrap;
-                font-size: 20px;
+                font-size: 16px;
                 font-weight: bold;
                 font-family: 'Neucha', cursive;
             }
             h5{
-                font-size:24px
+               
                 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             }
             .card-header{
-                background-color: orangered;
+                background-color: #282626;
                 display:flex;
                 justify-content: space-around;
-                align-items:center
+                align-items:center;
+                width:95%;
+                color:white;
                 
             }
             .span-created{
@@ -64,7 +66,7 @@ class PostCardComponent extends HTMLElement {
                 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             }
 
-            }
+        
             
                
             </style>`;
