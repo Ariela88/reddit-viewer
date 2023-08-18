@@ -1,3 +1,5 @@
+
+
 class SideBarComponent extends HTMLElement {
   constructor() {
     super();
@@ -90,7 +92,7 @@ class SideBarComponent extends HTMLElement {
     for (const category of this.selectedCategories) {
       const itaLabel = categoryLabels[category]; // Ottenere l'etichetta italiana dalla mappa
       const categoryBtn = document.createElement('button');
-      categoryBtn.textContent = itaLabel; // Utilizzare l'etichetta italiana come testo del pulsante
+      categoryBtn.textContent = itaLabel; 
       categoryBtn.addEventListener('click', () => {
         const dialog = new CategoryPosts();
         dialog.loadPosts(category);
