@@ -1,5 +1,6 @@
 
 
+import CategoryPosts from "./category-posts.js";
 class SideBarComponent extends HTMLElement {
   constructor() {
     super();
@@ -44,7 +45,7 @@ class SideBarComponent extends HTMLElement {
 
   async loadNextPosts() {
 
-    this.shadowRoot.innerHTML = ''
+    this.postContainer = ''
     for (const category of this.selectedCategories) {
       const url = `https://www.reddit.com/r/${category}/hot/.json?after=${this.afterId}`;
       await this.loadPosts(category, url);
@@ -53,7 +54,7 @@ class SideBarComponent extends HTMLElement {
 
   async loadPreviousPosts() {
 
-    this.shadowRoot.innerHTML = ''
+    this.postContainer = ''
     console.log('Loading previous posts...');
     for (const category of this.selectedCategories) {
       const url = `https://www.reddit.com/r/${category}/hot/.json?before=${this.afterId}`;
@@ -90,7 +91,7 @@ class SideBarComponent extends HTMLElement {
     categoriesContainer.classList.add('category-container');
 
     for (const category of this.selectedCategories) {
-      const itaLabel = categoryLabels[category]; // Ottenere l'etichetta italiana dalla mappa
+      const itaLabel = categoryLabels[category]; 
       const categoryBtn = document.createElement('button');
       categoryBtn.textContent = itaLabel; 
       categoryBtn.addEventListener('click', () => {

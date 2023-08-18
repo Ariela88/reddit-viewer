@@ -1,6 +1,6 @@
 
 
-export class CategoryPosts extends HTMLElement {
+export default class CategoryPosts extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
