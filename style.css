@@ -196,13 +196,21 @@ label {
 }
 
 
-.rss-view {
+.rss-post {
     border: 1px solid #ccc;
     padding: 10px;
     margin: 10px;
-    background-color: #fe00d8;
-    overflow: scroll;
-    height: 700px;
+    
+    height: 100px;
+    margin-left: 200px;
+}
+
+#pop-btn-post{
+    background-color: black;
+    color: white;
+    width: 100%;
+    font-family: 'Neucha', cursive;
+    border:none;
 }
 
 

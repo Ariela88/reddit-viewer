@@ -66,6 +66,8 @@ export class SideBarComponent extends HTMLElement {
 
   render() {
     this.shadowRoot.innerHTML = '';
+    const showPopPostBtn = document.getElementById('pop-btn-post')
+    showPopPostBtn.addEventListener('click',()=> this.showPopularPost())
     
     const categoryLabels = {
       'gaming': 'Giochi',
@@ -106,11 +108,11 @@ export class SideBarComponent extends HTMLElement {
 
 
 
-console.log(this.rssArray)
+
 for (const rss of this.rssArray) {
-  if (this.selectedCategories.has(rss)) {
+  
       const rssBtn = document.createElement('button');
-      const rssName = 'SecoloXIX'; 
+      const rssName = rss; 
       rssBtn.textContent = rssName;
       rssBtn.classList.add('rss-btn')
       rssBtn.addEventListener('click', () => {
@@ -118,7 +120,7 @@ for (const rss of this.rssArray) {
           dialog.loadPosts(rss);
       });
       categoriesContainer.appendChild(rssBtn);
-  }
+  
 }
     
     

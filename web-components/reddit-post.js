@@ -93,19 +93,7 @@ class PostCardComponent extends HTMLElement {
                         </div>
                    
                 </div>`;
-         } else if(this.rss) {
-                    
-           
-               
-            this.shadowRoot.innerHTML += `
-                <div class="card">
-                    <div class="card-header">
-                        <h5><a>${this.rss.title}</a></h5>
-                       
-                    </div>
-                   
-                </div>`;
-        } 
+         }
     }
 
     emitEvent() {

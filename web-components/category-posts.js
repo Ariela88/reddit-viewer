@@ -66,44 +66,43 @@ export default class CategoryPosts extends HTMLElement {
 
     }
 
-   
-    loadRss(rssUrl = 'https://www.ilsecoloxix.it/genova/rss') {
-    const rssContainer = document.getElementById('rss-container');
-
-    const parser = new RSSParser();
-    parser.parseURL(rssUrl, (err, feed) => {
-        if (!err && feed && feed.items) {
-            rssContainer.innerHTML = ''; // Pulisce il contenuto del container RSS
-
-            feed.items.forEach(item => {
-                const postTitle = item.title;
-                const postLink = item.link;
-
-                let imageUrl = '';
-                if (item.enclosures && item.enclosures.length > 0) {
-                    imageUrl = item.enclosures[0].url;
-                } else if (item.content && item.content.startsWith('<img')) {
-                    const imgTag = document.createElement('div');
-                    imgTag.innerHTML = item.content;
-                    const imgElement = imgTag.querySelector('img');
-                    if (imgElement) {
-                        imageUrl = imgElement.src;
-                    }
-                }
-
-                const postElement = document.createElement('div');
-                postElement.classList.add('rss-post');
-
-                postElement.innerHTML = `<style>
+    loadRss() {
+        const rssUrls = this.rssArray; // Supponendo che this.rssArray sia un array di URL RSS
+        const rssContainer = document.getElementById('rss-container');
+        const parser = new RSSParser();
+    
+        rssUrls.forEach(rssUrl => {
+            parser.parseURL(rssUrl, (err, feed) => {
+                if (!err && feed && feed.items) {
+                    feed.items.forEach(item => {
+                        const postTitle = item.title;
+                        const postLink = item.link;
+    
+                        let imageUrl = '';
+                        if (item.enclosures && item.enclosures.length > 0) {
+                            imageUrl = item.enclosures[0].url;
+                        } else if (item.content && item.content.startsWith('<img')) {
+                            const imgTag = document.createElement('div');
+                            imgTag.innerHTML = item.content;
+                            const imgElement = imgTag.querySelector('img');
+                            if (imgElement) {
+                                imageUrl = imgElement.src;
+                            }
+                        }
+    
+                        const rssElement = document.createElement('div');
+                        rssElement.classList.add('rss-post');
+                        rssElement.innerHTML = `
+                <style>
                 .rss-card{
-                    background-color: transparent;
+                    
                    float:right;
                     display: flex;
                     width: 100%;
                     flex-direction: column;
                     padding: 16px;
                     margin-bottom: 40px 
-                    margin-left: 100px; 
+                    
                 }
 
                 .rss-header{
@@ -111,8 +110,9 @@ export default class CategoryPosts extends HTMLElement {
                     display:flex;
                     justify-content: space-around;
                     align-items:center;
-                    width:95%;
+                    flex-direction: column;
                     color:white;
+                    padding:16px;
                     
                 }
 
@@ -127,20 +127,23 @@ export default class CategoryPosts extends HTMLElement {
                 
                 
                 `
-                postElement.innerHTML += `
-                    <div class="rss-card">
-                        <div class="rss-header">
-                            <h5><a href="${postLink}" target="_blank">${postTitle}</a></h5>
-                            <img src="${imageUrl}" alt="Immagine notizia">
-                        </div>
-                    </div>`;
-                rssContainer.prepend(postElement);
+                        
+                        rssElement.innerHTML += `
+                            <div class="rss-card">
+                                <div class="rss-header">
+                                    <h5><a href="${postLink}" target="_blank">${postTitle}</a></h5>
+                                    <img src="${imageUrl}" alt="Immagine notizia">
+                                </div>
+                            </div>`;
+                        rssContainer.appendChild(rssElement);
+                    });
+                } else {
+                    console.error('Errore nel parsing del feed RSS:', err);
+                }
             });
-        } else {
-            console.error('Errore nel parsing del feed RSS:', err);
-        }
-    });
-}
+        });
+    }
+    
 
     
   
@@ -160,6 +163,13 @@ export default class CategoryPosts extends HTMLElement {
             'hobbies': 'Passatempi'
         
         }
+
+        const rssName = {
+            'https://www.ilsecoloxix.it/genova/rss': 'Il SecoloXIX - Genova',
+            'https://www.ilsecoloxix.it/levante/rss': 'Il SecoloXIX - Levante',
+            
+        
+        }
         
         const dialog = document.getElementById('dialog-container');
         dialog.innerHTML = ""
@@ -170,7 +180,7 @@ export default class CategoryPosts extends HTMLElement {
         const rssContainer = document.createElement('div');
 rssContainer.id = 'rss-container';
 rssContainer.innerHTML = '<h2>Feed RSS</h2>';
-postContainer.appendChild(rssContainer);
+this.shadowRoot.appendChild(rssContainer);
 
         const categoryAddInput = document.createElement('input')
         categoryAddInput.type = 'text';
@@ -207,12 +217,15 @@ postContainer.appendChild(rssContainer);
         }
 
         for (let i = 0; i < this.rssArray.length; i++) {
+            const rssName = this.rssName[i];
+            const rssItalianLabel = rssName[rssItalianLabel];
+
             const rssUrl = this.rssArray[i]; // Ottieni l'URL del feed RSS
             const inputCard = document.createElement('div');
             const checkbox = document.createElement('input');
             checkbox.classList.add('check-box');
             checkbox.type = 'checkbox';
-            checkbox.name = rssUrl; // Utilizza l'URL come nome
+            checkbox.name = rssItalianLabel; 
             checkbox.value = rssUrl;
             checkbox.id = rssUrl;
             
