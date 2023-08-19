@@ -1,7 +1,7 @@
 
 
 import CategoryPosts from "./category-posts.js";
-class SideBarComponent extends HTMLElement {
+export class SideBarComponent extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -11,6 +11,7 @@ class SideBarComponent extends HTMLElement {
     this.afterId = '';
     this.nextBtn = null;
     this.previousBtn = null;
+    this.rssArray = ['https://www.ilsecoloxix.it/genova/rss','https://www.ilsecoloxix.it/levante/rss']
   }
 
   connectedCallback() {
@@ -65,24 +66,24 @@ class SideBarComponent extends HTMLElement {
 
   render() {
     this.shadowRoot.innerHTML = '';
-
+    
     const categoryLabels = {
       'gaming': 'Giochi',
       'history': 'Storia',
       'animals_and_pets': 'Animali e Animali Domestici',
-      'movies':'Films',
+      'movies': 'Films',
       'science': 'Scienza',
-      'food_and_drink':'Cibo e Bevande',
+      'food_and_drink': 'Cibo e Bevande',
       'travel': 'Viaggi',
       'music': 'Musica',
       'programming': 'Programmazione',
       'hobbies': 'Passatempi'
-  
-  }
+
+    }
     this.nextBtn = document.getElementById('next-page');
     this.previousBtn = document.getElementById('previous-page');
 
-    
+
 
     const sidebar = document.getElementById('sidebar-nav');
     sidebar.innerHTML = '';
@@ -91,18 +92,37 @@ class SideBarComponent extends HTMLElement {
     categoriesContainer.classList.add('category-container');
 
     for (const category of this.selectedCategories) {
-      const itaLabel = categoryLabels[category]; 
+      const itaLabel = categoryLabels[category];
       const categoryBtn = document.createElement('button');
-      categoryBtn.textContent = itaLabel; 
+      categoryBtn.textContent = itaLabel;
       categoryBtn.addEventListener('click', () => {
         const dialog = new CategoryPosts();
         dialog.loadPosts(category);
       });
-    
+
       categoriesContainer.appendChild(categoryBtn);
     }
-    
 
+
+
+
+console.log(this.rssArray)
+for (const rss of this.rssArray) {
+  if (this.selectedCategories.has(rss)) {
+      const rssBtn = document.createElement('button');
+      const rssName = 'SecoloXIX'; 
+      rssBtn.textContent = rssName;
+      rssBtn.classList.add('rss-btn')
+      rssBtn.addEventListener('click', () => {
+          const dialog = new CategoryPosts();
+          dialog.loadPosts(rss);
+      });
+      categoriesContainer.appendChild(rssBtn);
+  }
+}
+    
+    
+    
     sidebar.appendChild(categoriesContainer);
   }
 
@@ -117,6 +137,13 @@ class SideBarComponent extends HTMLElement {
     this.postsArray.forEach((post) => {
       const cardComponent = document.createElement('post-card');
       cardComponent.post = post;
+      postContainer.appendChild(cardComponent);
+
+    });
+
+    this.rssArray.forEach((rss) => {
+      const cardComponent = document.createElement('post-card');
+      cardComponent.rss = rss;
       postContainer.appendChild(cardComponent);
 
     });

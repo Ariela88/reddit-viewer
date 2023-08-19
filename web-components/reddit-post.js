@@ -10,9 +10,8 @@ class PostCardComponent extends HTMLElement {
 
     render() {
         this.shadowRoot.innerHTML = '';
-        if (this.post) {
 
-            this.shadowRoot.innerHTML += `<style>
+        this.shadowRoot.innerHTML += `<style>
             .card{
                 background-color: transparent;
                
@@ -70,6 +69,9 @@ class PostCardComponent extends HTMLElement {
             
                
             </style>`;
+        if (this.post) {
+
+            
 
             this.shadowRoot.innerHTML += `
                 <div class="card">
@@ -91,7 +93,19 @@ class PostCardComponent extends HTMLElement {
                         </div>
                    
                 </div>`;
-        }
+         } else if(this.rss) {
+                    
+           
+               
+            this.shadowRoot.innerHTML += `
+                <div class="card">
+                    <div class="card-header">
+                        <h5><a>${this.rss.title}</a></h5>
+                       
+                    </div>
+                   
+                </div>`;
+        } 
     }
 
     emitEvent() {
