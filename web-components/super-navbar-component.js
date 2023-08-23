@@ -22,6 +22,7 @@ export class SideBarComponent extends HTMLElement {
   loadSelectedCategories() {
     const savedCategories = Storage.loadData();
     this.selectedCategories = new Set(savedCategories);
+    
   }
 
   addEventListeners() {
@@ -39,6 +40,8 @@ export class SideBarComponent extends HTMLElement {
         }
       }
       this.showFilteredPosts();
+      Storage.loadData(this.rssArray)
+
     } catch (error) {
       console.error(`Error fetching posts for ${category}:`, error);
     }

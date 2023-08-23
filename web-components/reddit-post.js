@@ -23,10 +23,6 @@ class PostCardComponent extends HTMLElement {
                 
                 padding: 16px;
                 margin-bottom: 40px;
-                
-               
-               
-                
                
             }
             .img-container img{

@@ -12,8 +12,6 @@ export default class CategoryPosts extends HTMLElement {
         this.afterId = ''
         this.rssArray = ['https://www.ilsecoloxix.it/genova/rss','https://www.ilsecoloxix.it/levante/rss']
 
-
-
     }
 
     loadSelectedCategories() {
@@ -43,7 +41,7 @@ export default class CategoryPosts extends HTMLElement {
                 this.loadRss(rssUrl);
             });
         });
-        this.loadRss();
+        this.loadRss(rssLinks);
     }
 
     loadPosts() {
@@ -67,8 +65,10 @@ export default class CategoryPosts extends HTMLElement {
     }
 
     loadRss() {
-        const rssUrls = this.rssArray; // Supponendo che this.rssArray sia un array di URL RSS
-        const rssContainer = document.getElementById('rss-container');
+       
+        
+        const rssUrls = this.rssArray;
+        const rssContainer = document.getElementById('postContainer');
         const parser = new RSSParser();
     
         rssUrls.forEach(rssUrl => {
@@ -119,20 +119,13 @@ export default class CategoryPosts extends HTMLElement {
                 h5{
                
                     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-                }
-                
-                
-                
-                
-                
-                
-                `
+                }  `
                         
                         rssElement.innerHTML += `
-                            <div class="rss-card">
+                            <div class="post-card">
                                 <div class="rss-header">
                                     <h5><a href="${postLink}" target="_blank">${postTitle}</a></h5>
-                                    <img src="${imageUrl}" alt="Immagine notizia">
+                                    <img src="/${imageUrl}" alt="Immagine notizia">
                                 </div>
                             </div>`;
                         rssContainer.appendChild(rssElement);
@@ -164,13 +157,7 @@ export default class CategoryPosts extends HTMLElement {
         
         }
 
-        const rssName = {
-            'https://www.ilsecoloxix.it/genova/rss': 'Il SecoloXIX - Genova',
-            'https://www.ilsecoloxix.it/levante/rss': 'Il SecoloXIX - Levante',
-            
-        
-        }
-        
+     
         const dialog = document.getElementById('dialog-container');
         dialog.innerHTML = ""
 
@@ -178,9 +165,9 @@ export default class CategoryPosts extends HTMLElement {
         dialogInput.classList.add('dialog-input');
 
         const rssContainer = document.createElement('div');
-rssContainer.id = 'rss-container';
-rssContainer.innerHTML = '<h2>Feed RSS</h2>';
-this.shadowRoot.appendChild(rssContainer);
+        rssContainer.id = 'rss-container';
+        rssContainer.innerHTML = '<h2>Feed RSS</h2>';
+        this.shadowRoot.appendChild(rssContainer);
 
         const categoryAddInput = document.createElement('input')
         categoryAddInput.type = 'text';
@@ -217,25 +204,25 @@ this.shadowRoot.appendChild(rssContainer);
         }
 
         for (let i = 0; i < this.rssArray.length; i++) {
-            const rssName = this.rssName[i];
-            const rssItalianLabel = rssName[rssItalianLabel];
-
-            const rssUrl = this.rssArray[i]; // Ottieni l'URL del feed RSS
+         
+            const rssUrl = this.rssArray[i];
             const inputCard = document.createElement('div');
             const checkbox = document.createElement('input');
             checkbox.classList.add('check-box');
             checkbox.type = 'checkbox';
-            checkbox.name = rssItalianLabel; 
+          
             checkbox.value = rssUrl;
             checkbox.id = rssUrl;
             
             if (this.selectedCategories.has(rssUrl)) {
                 checkbox.checked = true;
             }
+
+            Storage.saveData(Array.from(this.rssArray));
         
             const label = document.createElement('label');
             label.for = rssUrl;
-            label.textContent = rssUrl; // Puoi utilizzare l'URL come testo della label
+            label.textContent = rssUrl;
             inputCard.classList.add('input-card');
             inputCard.appendChild(checkbox);
             inputCard.appendChild(label);
@@ -327,11 +314,20 @@ this.shadowRoot.appendChild(rssContainer);
             cardComponent.post = post;
             postContainer.appendChild(cardComponent);
         });
+        this.rssArray.forEach((rss) => {
+            if (this.selectedCategories.has(rss)) {
+                const cardComponent = document.createElement('post-card');
+                cardComponent.rss = rss;
+                postContainer.appendChild(cardComponent);
+            }
+        });
 
         Storage.saveData(this.selectedCategories);
 
 
     }
+
+    
 
 
     showTopPost() {

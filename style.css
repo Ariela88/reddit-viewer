@@ -142,8 +142,8 @@ a {
 
 #dialog-container {
 
-    width: 500px;
-    height: 400px;
+    width: 700px;
+    height: 500px;
 
     position: fixed;
     z-index: 999;
@@ -267,12 +267,6 @@ label {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    /* padding-top: 30px;
-    margin-left: 50px; */
-
-
-
-
 
 }
 
@@ -281,9 +275,9 @@ post-card {
 
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width:60%;
     text-align: center;
-    float: right;
+    margin: 10px 20%;
 
 
     height: max-content;
@@ -292,9 +286,8 @@ post-card {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin-left: 12%;
-    margin-bottom: 30px;
-    margin-top: 0px;
+    margin-left: 20%;
+    
 
 }
 

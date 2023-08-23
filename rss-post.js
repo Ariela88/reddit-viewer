@@ -18,21 +18,15 @@ class RssCardComponent extends HTMLElement {
             this.shadowRoot.innerHTML += `<style>
             .card{
                 background-color: transparent;
-               
+                margin: 10px 20%;
                 
-                float:right;
                 display: flex;
                 width: 100%;
                 flex-direction: column;
                 
-                padding: 16px;
-                margin-bottom: 40px;
-                
-               
-               
-                
-               
-            }
+                padding: 16px;                          
+                }
+
             .img-container img{
                 width:70%;
                 border-radius:20px;
