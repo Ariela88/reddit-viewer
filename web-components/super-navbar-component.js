@@ -1,6 +1,3 @@
-
-
-import CategoryPosts from "./category-posts.js";
 export class SideBarComponent extends HTMLElement {
   constructor() {
     super();
@@ -11,7 +8,7 @@ export class SideBarComponent extends HTMLElement {
     this.afterId = '';
     this.nextBtn = null;
     this.previousBtn = null;
-    this.rssArray = ['https://www.ilsecoloxix.it/genova/rss','https://www.ilsecoloxix.it/levante/rss']
+    this.rssArray = ['https://www.ilsecoloxix.it/genova/rss', 'https://www.ilsecoloxix.it/levante/rss']
   }
 
   connectedCallback() {
@@ -22,7 +19,7 @@ export class SideBarComponent extends HTMLElement {
   loadSelectedCategories() {
     const savedCategories = Storage.loadData();
     this.selectedCategories = new Set(savedCategories);
-    
+
   }
 
   addEventListeners() {
@@ -66,12 +63,11 @@ export class SideBarComponent extends HTMLElement {
       await this.loadPosts(category, url);
     }
   }
-
   render() {
     this.shadowRoot.innerHTML = '';
-    const showPopPostBtn = document.getElementById('pop-btn-post')
-    showPopPostBtn.addEventListener('click',()=> this.showPopularPost())
-    
+    const showPopPostBtn = document.getElementById('pop-btn-post');
+    showPopPostBtn.addEventListener('click', () => this.showPopularPost());
+
     const categoryLabels = {
       'gaming': 'Giochi',
       'history': 'Storia',
@@ -83,12 +79,16 @@ export class SideBarComponent extends HTMLElement {
       'music': 'Musica',
       'programming': 'Programmazione',
       'hobbies': 'Passatempi'
+    };
 
-    }
+    const rssLabels = {
+      'https://www.ilsecoloxix.it/genova/rss': 'Il SecoloXIX - Genova',
+      'https://www.ilsecoloxix.it/levante/rss': 'Il SecoloXIX - Levante',
+
+    };
+
     this.nextBtn = document.getElementById('next-page');
     this.previousBtn = document.getElementById('previous-page');
-
-
 
     const sidebar = document.getElementById('sidebar-nav');
     sidebar.innerHTML = '';
@@ -96,45 +96,42 @@ export class SideBarComponent extends HTMLElement {
     const categoriesContainer = document.createElement('div');
     categoriesContainer.classList.add('category-container');
 
+    const selectedCategoriesContainer = document.createElement('div');
+    selectedCategoriesContainer.classList.add('selected-categories-container');
+
     for (const category of this.selectedCategories) {
       const itaLabel = categoryLabels[category];
       const categoryBtn = document.createElement('button');
       categoryBtn.textContent = itaLabel;
       categoryBtn.addEventListener('click', () => {
-        const dialog = new CategoryPosts();
-        dialog.loadPosts(category);
+        this.loadPosts(category);
       });
 
-      categoriesContainer.appendChild(categoryBtn);
+      selectedCategoriesContainer.appendChild(categoryBtn);
     }
 
+    sidebar.appendChild(selectedCategoriesContainer);
 
+    const selectedRSSContainer = document.createElement('div');
+    selectedRSSContainer.classList.add('selected-rss-container');
 
+    for (const rss of this.rssArray) {
+      if (this.selectedCategories.has(rss)) {
+        const rssLabel = rssLabels[rss];
 
+        const rssBtn = document.createElement('button');
+        rssBtn.textContent = rssLabel;
+        rssBtn.classList.add('rss-btn');
+        rssBtn.addEventListener('click', () => {
+          this.loadPosts(rss);
+        });
 
-for (const rss of this.rssArray) {
-  
-      const rssBtn = document.createElement('button');
-      const rssName = rss; 
-      rssBtn.textContent = rssName;
-      rssBtn.classList.add('rss-btn')
-      rssBtn.addEventListener('click', () => {
-          const dialog = new CategoryPosts();
-          dialog.loadPosts(rss);
-      });
-      categoriesContainer.appendChild(rssBtn);
-  
-}
-    
-    
-    
-    sidebar.appendChild(categoriesContainer);
+        selectedRSSContainer.appendChild(rssBtn);
+      }
+    }
+
+    sidebar.appendChild(selectedRSSContainer);
   }
-
-
-
-
-
 
 
   showFilteredPosts() {

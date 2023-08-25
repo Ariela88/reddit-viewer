@@ -82,10 +82,10 @@ class PostCardComponent extends HTMLElement {
                             
                         </div>
                         <div class="img-container">
-                            <img src="${this.post.thumbnail}" alt="thumbails">
+                            <img src="${this.post.thumbnail}" alt="">
                         </div>
                         <div class="details">
-                            <a href="${this.post.url}" target="_blank" rel="noopener noreferrer"></a>
+                            <a href="${this.post.url}" target="_blank" rel="noopener noreferrer"> vai al link</a>
                         </div>
                    
                 </div>`;
