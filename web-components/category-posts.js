@@ -112,7 +112,7 @@ export default class CategoryPosts extends HTMLElement {
 
 
                             const rssElement = document.createElement('div');
-                           
+
                             const rssCard = document.createElement('div');
                             rssCard.classList.add('rss-card');
                             const rssHeader = document.createElement('div');
@@ -153,6 +153,7 @@ export default class CategoryPosts extends HTMLElement {
                 });
             }
         });
+
 
     }
 
@@ -201,18 +202,50 @@ export default class CategoryPosts extends HTMLElement {
 
         const dialogInput = document.createElement('div');
         dialogInput.classList.add('dialog-input');
-
+        const typeDropdown = document.createElement('select');
+        typeDropdown.id = 'type-dropdown';
+        typeDropdown.addEventListener('change', () => {
+            this.selectedType = typeDropdown.value;
+            this.render();
+        });
         const rssContainer = document.createElement('div');
         rssContainer.id = 'rss-container';
         rssContainer.innerHTML = '<h2>Feed RSS</h2>';
         this.shadowRoot.appendChild(rssContainer);
 
-        const categoryAddInput = document.createElement('input')
+        const categoryOption = document.createElement('option');
+    categoryOption.value = 'category';
+    categoryOption.textContent = 'Aggiungi Categoria';
+
+    const rssOption = document.createElement('option');
+    rssOption.value = 'rss';
+    rssOption.textContent = 'Aggiungi URL RSS';
+
+    if (this.selectedType === 'category') {
+        categoryOption.selected = true;
+    } else {
+        rssOption.selected = true;
+    }
+
+    typeDropdown.appendChild(categoryOption);
+    typeDropdown.appendChild(rssOption);
+
+    dialogInput.appendChild(typeDropdown);
+
+   
+    if (this.selectedType === 'category') {
+        const categoryAddInput = document.createElement('input');
         categoryAddInput.type = 'text';
         categoryAddInput.id = 'category';
-        categoryAddInput.type = 'category';
-        categoryAddInput.type = 'category';
         categoryAddInput.placeholder = 'Scrivi la categoria che vuoi aggiungere';
+        dialogInput.appendChild(categoryAddInput);
+    } else {
+        const rssUrlInput = document.createElement('input');
+        rssUrlInput.type = 'text';
+        rssUrlInput.id = 'rss-url';
+        rssUrlInput.placeholder = 'Inserisci URL RSS da aggiungere';
+        dialogInput.appendChild(rssUrlInput);
+    }
 
 
         for (let i = 0; i < this.categoryArray.length; i++) {
@@ -270,11 +303,6 @@ export default class CategoryPosts extends HTMLElement {
         }
 
 
-
-
-
-
-
         const showPostsButton = document.createElement('button');
         showPostsButton.textContent = 'Mostra Post';
         showPostsButton.addEventListener('click', () => {
@@ -297,7 +325,6 @@ export default class CategoryPosts extends HTMLElement {
         exitDialog.textContent = 'Cancel';
         exitDialog.addEventListener('click', () => {
 
-            this.showFilteredPosts();
             dialog.style.display = 'none';
         });
 
@@ -336,13 +363,49 @@ export default class CategoryPosts extends HTMLElement {
         const btnDialogContainer = document.createElement('div')
         btnDialogContainer.classList.add('btn-dialog-container')
 
-        dialogInput.appendChild(categoryAddInput)
+       
+
+        const addRssButton = document.createElement('button');
+        addRssButton.textContent = 'Aggiungi URL RSS';
+        addRssButton.addEventListener('click', () => {
+            const newRssUrl = document.getElementById('rss-url').value.trim();
+            if (newRssUrl !== '') {
+                if (!this.rssArray.includes(newRssUrl)) {
+                    this.rssArray.push(newRssUrl);
+                    Storage.saveData(Array.from(this.rssArray));
+
+
+
+                    const rssCheckbox = document.createElement('input');
+                    rssCheckbox.type = 'checkbox';
+                    rssCheckbox.name = newRssUrl;
+                    rssCheckbox.value = newRssUrl;
+                    rssCheckbox.id = newRssUrl;
+                    rssCheckbox.classList.add('check-box');
+
+
+                    const rssLabel = document.createElement('label');
+                    rssLabel.for = newRssUrl;
+                    rssLabel.textContent = newRssUrl;
+
+
+                    const rssCheckboxContainer = document.createElement('div');
+                    rssCheckboxContainer.classList.add('input-card');
+                    rssCheckboxContainer.appendChild(rssCheckbox);
+                    rssCheckboxContainer.appendChild(rssLabel);
+                    dialogInput.appendChild(rssCheckboxContainer);
+                    dialogInput.appendChild(document.createElement('br'));
+                }
+            }
+        });
+        
         dialog.appendChild(dialogInput);
         btnDialogContainer.appendChild(addCategoryButton);
+        btnDialogContainer.appendChild(addRssButton)
         btnDialogContainer.appendChild(showPostsButton);
         btnDialogContainer.appendChild(exitDialog)
         dialog.appendChild(btnDialogContainer)
-
+       
     }
 
     showFilteredPosts() {
@@ -363,10 +426,6 @@ export default class CategoryPosts extends HTMLElement {
 
         Storage.saveData(this.selectedCategories);
     }
-
-
-
-
 
     showTopPost() {
         JSON.parse(localStorage.getItem('posts')).map((category) =>
