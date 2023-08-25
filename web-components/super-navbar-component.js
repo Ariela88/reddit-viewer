@@ -46,20 +46,20 @@ export class SideBarComponent extends HTMLElement {
 
   async loadNextPosts() {
 
-    this.postContainer = ''
+    document.innerHTML = ''
     for (const category of this.selectedCategories) {
-      const url = `https://www.reddit.com/r/${category}/hot/.json?after=${this.afterId}`;
+      const url = `https://www.reddit.com/r/${category}/.json?after=${this.afterId}`;
       await this.loadPosts(category, url);
     }
   }
 
   async loadPreviousPosts() {
 
-    this.postContainer = ''
-    console.log('Loading previous posts...');
+    document.getElementById('postContainer').innerHTML = ''
+
     for (const category of this.selectedCategories) {
-      const url = `https://www.reddit.com/r/${category}/hot/.json?before=${this.afterId}`;
-      console.log('Fetching data from:', url);
+      const url = `https://www.reddit.com/r/${category}/.json?before=${this.afterId}`;
+
       await this.loadPosts(category, url);
     }
   }

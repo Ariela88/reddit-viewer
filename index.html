@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reddit Task</title>
     <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
     <header>
         <div class="header">
@@ -13,7 +15,9 @@
             <input type="search" name="search" placeholder="Search Reddit" id="search">
             <div class="btn-header">
                 <button id="add-category"> ＋ Aggingi Categorie </button>
-                <button id="download-app-btn"><a href="https://play.google.com/store/apps/details?id=com.reddit.frontpage&hl=en&pli=1" target="_blank" rel="noopener noreferrer">Scarica App</a></button>
+                <button id="download-app-btn"><a
+                        href="https://play.google.com/store/apps/details?id=com.reddit.frontpage&hl=en&pli=1"
+                        target="_blank" rel="noopener noreferrer">Scarica App</a></button>
                 <button id="login-btn"><a href="https://www.reddit.com/login">Login</a></button>
             </div>
         </div>
@@ -25,11 +29,11 @@
                     Categorie
                 </div>
                 <button id="pop-btn-post"> Show Popular Posts </button>
-                
+
                 <nav id="sidebar-nav">
-                    
+
                 </nav>
-               
+
             </aside>
         </section>
         <super-nav></super-nav>
@@ -43,20 +47,21 @@
             <pref-dialog></pref-dialog>
         </div>
     </main>
-    
-    
+
+
     <footer id="footer"></footer>
     <script src="./storage-service/storage.js"></script>
-<script type="module" src="./web-components/category-posts.js"></script>
-<script type="module" src="./web-components/super-navbar-component.js"></script>
-<script src="./web-components/reddit-post.js"></script>
+    <script type="module" src="./web-components/category-posts.js"></script>
+    <script type="module" src="./web-components/super-navbar-component.js"></script>
+    <script src="./web-components/reddit-post.js"></script>
 
-<script src="./app.js"></script>
-<script src="./node_modules/rss-parser/dist/rss-parser.min.js"></script>
-
-    
+    <script src="./app.js"></script>
+    <script src="./node_modules/rss-parser/dist/rss-parser.min.js"></script>
 
 
-    
+
+
+
 </body>
+
 </html>

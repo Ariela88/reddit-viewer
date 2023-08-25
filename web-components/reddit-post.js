@@ -14,19 +14,15 @@ class PostCardComponent extends HTMLElement {
         this.shadowRoot.innerHTML += `<style>
             .card{
                 background-color: transparent;
-               
-                
                 float:right;
                 display: flex;
                 width: 100%;
                 flex-direction: column;
-                
-                padding: 16px;
-                margin-bottom: 40px;
+                 margin-bottom: 40px;
                
             }
             .img-container img{
-                width:70%;
+                width:60%;
                 border-radius:20px;
             }
             .h2-title{
@@ -45,7 +41,8 @@ class PostCardComponent extends HTMLElement {
                 display:flex;
                 justify-content: space-around;
                 align-items:center;
-                width:95%;
+                width:100%;
+                padding:0;
                 color:white;
                 
             }
@@ -55,20 +52,12 @@ class PostCardComponent extends HTMLElement {
             .details{
                 display: flex;
                 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-           
-               
-                flex-direction:column;
+           flex-direction:column;
                 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             }
 
-        
-            
-               
-            </style>`;
+        </style>`;
         if (this.post) {
-
-            
-
             this.shadowRoot.innerHTML += `
                 <div class="card">
                     <div class="card-header">
@@ -89,7 +78,7 @@ class PostCardComponent extends HTMLElement {
                         </div>
                    
                 </div>`;
-         }
+        }
     }
 
     emitEvent() {

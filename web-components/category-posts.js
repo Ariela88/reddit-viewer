@@ -93,7 +93,11 @@ export default class CategoryPosts extends HTMLElement {
                         feed.items.forEach(item => {
                             const postTitle = item.title;
                             const postLink = item.link;
-                            let imageUrl = '';
+                            let imageUrl = this.findImageUrlInContent(item.content);
+                            if (!imageUrl) {
+
+                                imageUrl = 'path_to_default_image.jpg';
+                            }
                             if (item.enclosures && item.enclosures.length > 0) {
                                 imageUrl = item.enclosures[0].url;
                             } else if (item.content && item.content.startsWith('<img')) {
@@ -104,10 +108,11 @@ export default class CategoryPosts extends HTMLElement {
                                     imageUrl = imgElement.src;
                                 }
                             }
-        
-                            
+
+
+
                             const rssElement = document.createElement('div');
-                            rssElement.classList.add('rss-post');
+                           
                             const rssCard = document.createElement('div');
                             rssCard.classList.add('rss-card');
                             const rssHeader = document.createElement('div');
@@ -115,28 +120,31 @@ export default class CategoryPosts extends HTMLElement {
                             const h5 = document.createElement('h5');
                             const a = document.createElement('a');
                             const img = document.createElement('img');
-        
-                           
+                            const imgContainer = document.createElement('div');
+
+
                             a.href = postLink;
                             a.target = '_blank';
                             a.textContent = postTitle;
-                            img.src = `/${imageUrl}`;
+                            img.src = imageUrl
                             img.alt = 'Immagine notizia';
-        
-                           
+
                             h5.appendChild(a);
                             rssHeader.appendChild(h5);
                             rssCard.appendChild(rssHeader);
                             rssElement.appendChild(rssCard);
-                            rssElement.appendChild(img);
+                            imgContainer.appendChild(img)
+                            rssElement.appendChild(imgContainer);
+
+                            img.classList.add('rss-img')
 
                             h5.classList.add('h5-rss');
                             rssHeader.classList.add('rss-header');
-                           
+
                             rssCard.classList.add('rss-card');
                             rssElement.classList.add('rss-element');
-        
-                           
+
+
                             rssContainer.appendChild(rssElement);
                         });
                     } else {
@@ -145,10 +153,22 @@ export default class CategoryPosts extends HTMLElement {
                 });
             }
         });
-        
-     }
+
+    }
+
+    findImageUrlInContent(content) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = content;
 
 
+        const imgElement = tempDiv.querySelector('img');
+
+        if (imgElement) {
+            return imgElement.src;
+        }
+
+        return '';
+    }
 
     render() {
         const postContainer = document.getElementById('postContainer');
