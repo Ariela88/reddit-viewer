@@ -20,7 +20,8 @@ export default class CategoryPosts extends HTMLElement {
         this.loadSelectedCategories();
         this.afterId = ''
         this.rssArray = ['https://www.ilsecoloxix.it/genova/rss',
-            'https://www.ilsecoloxix.it/levante/rss']
+            'https://www.ilsecoloxix.it/levante/rss',
+            'https://oggiscienza.it/feed','https://www.giallozafferano.it/ricerca-ricette/rss']
 
     }
 
@@ -83,6 +84,7 @@ export default class CategoryPosts extends HTMLElement {
 
     loadRss() {
         const rssUrls = this.rssArray;
+        
         const rssContainer = document.getElementById('postContainer');
         const parser = new RSSParser();
 
@@ -192,6 +194,8 @@ export default class CategoryPosts extends HTMLElement {
         const rssLabels = {
             'https://www.ilsecoloxix.it/genova/rss': 'Il SecoloXIX - Genova',
             'https://www.ilsecoloxix.it/levante/rss': 'Il SecoloXIX - Levante',
+            'https://oggiscienza.it/feed': 'Oggi Scienza',
+            'https://www.giallozafferano.it/ricerca-ricette/rss': 'GialloZafferano'
 
 
         }

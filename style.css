@@ -5,17 +5,13 @@
 body {
     width: 100%;
     box-sizing: border-box;
-    background-color: rgb(36, 35, 35);
+    background-color: #949392;
     font-family: 'Raleway', sans-serif;
-    /* background-image: url(./public/background.jpg); */
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     margin: 0;
     padding: 0;
-
-
-
 
 }
 
@@ -221,9 +217,14 @@ label {
 #pop-btn-post {
     background-color: black;
     color: white;
-    width: 100%;
+    
     font-family: 'Neucha', cursive;
-    border: none;
+    border: 2px solid white;
+    font-size: 22px;
+    margin: auto;
+    width: 100%;
+    height: 40px;
+   
 }
 
 
@@ -285,9 +286,9 @@ post-card {
 
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
     text-align: center;
-    margin-left: 35%;
+    margin-left: 20%;
     margin-bottom: 40px;
     
 height: max-content;
@@ -324,7 +325,7 @@ flex-wrap: wrap;
 
 
 .nav-header {
-    font-size: 24px;
+    font-size: 30px;
     text-transform: uppercase;
     font-weight: 600;
     font-family: 'Neucha', cursive;
@@ -339,7 +340,7 @@ flex-wrap: wrap;
 #sidebar-nav {
     background-color: #282626b8;
     width: 100%;
-    height: 600px;
+    height: 100vh;
 
     display: flex;
     flex-direction: column;

@@ -1,3 +1,5 @@
+import CategoryPosts from "./category-posts.js";
+
 export class SideBarComponent extends HTMLElement {
   constructor() {
     super();
@@ -9,6 +11,7 @@ export class SideBarComponent extends HTMLElement {
     this.nextBtn = null;
     this.previousBtn = null;
     this.rssArray = ['https://www.ilsecoloxix.it/genova/rss', 'https://www.ilsecoloxix.it/levante/rss']
+
   }
 
   connectedCallback() {
@@ -27,29 +30,49 @@ export class SideBarComponent extends HTMLElement {
     this.previousBtn.addEventListener('click', () => this.loadPreviousPosts());
   }
 
-  async loadPosts(category, url) {
+
+
+
+  async loadPosts(category, url, limit) {
+
+    if (limit === 10) {
+      this.postsArray = [];
+    }
+
+    const postContainer = document.getElementById('postContainer');
+    postContainer.innerHTML = '';
+    let loadedPostsCount = 0;
+
     try {
       const response = await fetch(url);
       const data = await response.json();
       if (data.data && data.data.children) {
         for (const postData of data.data.children) {
           this.postsArray.push(postData.data);
+          loadedPostsCount++;
+
+          if (loadedPostsCount >= limit) {
+            break;
+          }
         }
       }
       this.showFilteredPosts();
-      Storage.loadData(this.rssArray)
-
+      Storage.loadData(this.rssArray);
     } catch (error) {
       console.error(`Error fetching posts for ${category}:`, error);
     }
   }
 
-  async loadNextPosts() {
 
-    document.innerHTML = ''
+
+  async loadNextPosts(limit) {
+    const postContainer = document.getElementById('postContainer');
+
+    postContainer.innerHTML = '';
+
     for (const category of this.selectedCategories) {
       const url = `https://www.reddit.com/r/${category}/.json?after=${this.afterId}`;
-      await this.loadPosts(category, url);
+      await this.loadPosts(category, url, limit);
     }
   }
 
@@ -104,7 +127,10 @@ export class SideBarComponent extends HTMLElement {
       const categoryBtn = document.createElement('button');
       categoryBtn.textContent = itaLabel;
       categoryBtn.addEventListener('click', () => {
-        this.loadPosts(category);
+        document.getElementById('postContainer').innerHTML = '';
+        this.postsArray = [];
+        const url = `https://www.reddit.com/r/${category}/.json?after=${this.afterId}`;
+        this.loadPosts(category, url, 10);
       });
 
       selectedCategoriesContainer.appendChild(categoryBtn);
@@ -118,17 +144,20 @@ export class SideBarComponent extends HTMLElement {
     for (const rss of this.rssArray) {
       if (this.selectedCategories.has(rss)) {
         const rssLabel = rssLabels[rss];
-
+    
         const rssBtn = document.createElement('button');
         rssBtn.textContent = rssLabel;
         rssBtn.classList.add('rss-btn');
         rssBtn.addEventListener('click', () => {
-          this.loadPosts(rss);
+          document.getElementById('postContainer').innerHTML = '';
+          const categoryPosts = new CategoryPosts();
+          categoryPosts.loadRss(rss);
         });
-
+    
         selectedRSSContainer.appendChild(rssBtn);
       }
     }
+    
 
     sidebar.appendChild(selectedRSSContainer);
   }
