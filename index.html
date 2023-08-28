@@ -11,15 +11,16 @@
 <body>
     <header>
         <div class="header">
-            <img id="logo-reddit" src="./public/Reddit-Horizontal-White-Logo.wine.png" alt="">
-            <input type="search" name="search" placeholder="Search Reddit" id="search">
+            <a class="link-logo" href="http://reddit.com"><img id="logo-reddit" src="./public/Reddit-Horizontal-White-Logo.wine.png" alt="">
+            </a>
             <div class="btn-header">
                 <button id="add-category"> ＋ Aggingi Categorie </button>
-                <button id="download-app-btn"><a
-                        href="https://play.google.com/store/apps/details?id=com.reddit.frontpage&hl=en&pli=1"
+                <button id="download-app-btn">
+                    <a href="https://play.google.com/store/apps/details?id=com.reddit.frontpage&hl=en&pli=1"
                         target="_blank" rel="noopener noreferrer">Scarica App</a></button>
                 <button id="login-btn"><a href="https://www.reddit.com/login">Login</a></button>
             </div>
+            <input type="search" name="search" placeholder="   Search Reddit" id="search">
         </div>
     </header>
     <main id="main-wrapper" class="main-wrapper">
@@ -50,13 +51,14 @@
 
 
     <footer id="footer"></footer>
+    <script src="./node_modules/rss-parser/dist/rss-parser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/rss-parser@3.13.0/dist/rss-parser.min.js"></script>
     <script src="./storage-service/storage.js"></script>
     <script type="module" src="./web-components/category-posts.js"></script>
     <script type="module" src="./web-components/super-navbar-component.js"></script>
     <script src="./web-components/reddit-post.js"></script>
 
     <script src="./app.js"></script>
-    <script src="./node_modules/rss-parser/dist/rss-parser.min.js"></script>
 
 
 
