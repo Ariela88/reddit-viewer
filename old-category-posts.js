@@ -85,7 +85,7 @@ export default class CategoryPosts extends HTMLElement {
     loadRss() {
         const rssUrls = this.rssArray;
         
-        const rssContainer = document.getElementById('postContainer');
+        const rssContainer = document.getElementById('rss-container');
         const parser = new RSSParser();
 
         rssUrls.forEach(rssUrl => {

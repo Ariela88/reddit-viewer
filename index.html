@@ -46,7 +46,27 @@
         </div>
         <div id="dialog-container">
             <pref-dialog></pref-dialog>
+            <category-dialog></category-dialog>
+            <rss-input-dialog></rss-input-dialog>
+            <div id="rss-dialog-container">
+            </div>
+            <div id="selection-dialog-container">
+            </div>
+            <div id="categories-container"> </div>
+            <select name="dialog-select-type" id="dialog-select-type">
+                <option value="category">Categoria</option>
+                <option value="rss">rss</option>
+            </select>
+            
+            <input type="text" value="" id="value-choice">
+            <div class="btn-dialog-container" id="btn-dialog-container"> 
+            <button id="add-new-category">Aggiungi</button>
+            <button id="show-post">Mostra Post</button>
+            <button id="cancel">Cancel</button>
         </div>
+            
+        </div>
+
     </main>
 
 
@@ -54,7 +74,10 @@
     <script src="./node_modules/rss-parser/dist/rss-parser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/rss-parser@3.13.0/dist/rss-parser.min.js"></script>
     <script src="./storage-service/storage.js"></script>
-    <script type="module" src="./web-components/category-posts.js"></script>
+    <!-- <script type="module" src="./web-components/category-posts.js"></script> -->
+    <script type="module" src="./web-components/category.js"></script>
+    <script src="./web-components/rss-card.js"></script>
+    <script type="module" src="./web-components/rss-input-component.js"></script>
     <script type="module" src="./web-components/super-navbar-component.js"></script>
     <script src="./web-components/reddit-post.js"></script>
 

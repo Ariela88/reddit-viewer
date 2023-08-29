@@ -1,4 +1,5 @@
-import CategoryPosts from "./category-posts.js";
+import Category from "./category.js";
+import Rss from "./rss-input-component.js";
 
 export class SideBarComponent extends HTMLElement {
   constructor() {
@@ -6,21 +7,26 @@ export class SideBarComponent extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.postsArray = [];
     this.selectedCategories = new Set();
+    this.selectedRss = new Set(); // Aggiungi un insieme per i feed RSS selezionati
     this.loadSelectedCategories();
+    this.loadSelectedRss(); // Carica i feed RSS selezionati
     this.afterId = '';
     this.nextBtn = null;
     this.previousBtn = null;
     this.rssArray = ['https://www.ilsecoloxix.it/genova/rss', 'https://www.ilsecoloxix.it/levante/rss']
-
   }
 
+  loadSelectedRss() {
+    const savedRss = Storage.loadRSSData();
+    this.selectedRss = new Set(savedRss);
+  }
   connectedCallback() {
     this.render();
     this.addEventListeners();
   }
 
   loadSelectedCategories() {
-    const savedCategories = Storage.loadData();
+    const savedCategories = Storage.loadPostData();
     this.selectedCategories = new Set(savedCategories);
 
   }
@@ -57,7 +63,9 @@ export class SideBarComponent extends HTMLElement {
         }
       }
       this.showFilteredPosts();
-      Storage.loadData(this.rssArray);
+     
+      Storage.loadPostData(this.selectedCategories);
+      Storage.loadRSSData(this.rssArray);
     } catch (error) {
       console.error(`Error fetching posts for ${category}:`, error);
     }
@@ -149,9 +157,9 @@ export class SideBarComponent extends HTMLElement {
         rssBtn.textContent = rssLabel;
         rssBtn.classList.add('rss-btn');
         rssBtn.addEventListener('click', () => {
-          document.getElementById('postContainer').innerHTML = '';
-          const categoryPosts = new CategoryPosts();
-          categoryPosts.loadRss(rss);
+          document.getElementById('rss-cotainer').innerHTML = '';
+          const rssCard = new Rss();
+          rssCard.loadRSSData(rss);
         });
     
         selectedRSSContainer.appendChild(rssBtn);
@@ -173,9 +181,9 @@ export class SideBarComponent extends HTMLElement {
     });
 
     this.rssArray.forEach((rss) => {
-      const cardComponent = document.createElement('post-card');
-      cardComponent.rss = rss;
-      postContainer.appendChild(cardComponent);
+      const rssComponent = document.createElement('rss-card');
+      rssComponent.rss = rss;
+      document.getElementById('rss-container').appendChild(rssComponent);
 
     });
 
