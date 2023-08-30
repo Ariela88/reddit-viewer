@@ -11,8 +11,8 @@ export class SideBarComponent extends HTMLElement {
     this.loadSelectedCategories();
     this.loadSelectedRss(); // Carica i feed RSS selezionati
     this.afterId = '';
-    this.nextBtn = null;
-    this.previousBtn = null;
+    this.nextBtn = document.getElementById('next-page');
+    this.previousBtn = document.getElementById('previous-page');
     this.rssArray = ['https://www.ilsecoloxix.it/genova/rss', 'https://www.ilsecoloxix.it/levante/rss']
   }
 
@@ -32,7 +32,7 @@ export class SideBarComponent extends HTMLElement {
   }
 
   addEventListeners() {
-    this.nextBtn.addEventListener('click', () => this.loadNextPosts());
+    this.nextBtn.addEventListener('click', () => this.loadNextPosts(10));
     this.previousBtn.addEventListener('click', () => this.loadPreviousPosts());
   }
 
@@ -40,47 +40,50 @@ export class SideBarComponent extends HTMLElement {
 
 
   async loadPosts(category, url, limit) {
-
-    if (limit === 10) {
-      this.postsArray = [];
-    }
-
-    const postContainer = document.getElementById('postContainer');
-    postContainer.innerHTML = '';
-    let loadedPostsCount = 0;
-
     try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data.data && data.data.children) {
-        for (const postData of data.data.children) {
-          this.postsArray.push(postData.data);
-          loadedPostsCount++;
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        this.afterId = data.data.after;
 
-          if (loadedPostsCount >= limit) {
-            break;
-          }
+        const postContainer = document.getElementById('postContainer');
+        postContainer.innerHTML = '';
+        
+        let loadedPostsCount = 0;
+
+        if (data.data && data.data.children) {
+            for (const postData of data.data.children) {
+              console.log(this.postsArray)
+                
+                this.postsArray.push(postData.data);
+                loadedPostsCount++;
+
+                if (loadedPostsCount >= limit) {
+                    break;
+                }
+            }
         }
-      }
-      this.showFilteredPosts();
-     
-      Storage.loadPostData(this.selectedCategories);
-      Storage.loadRSSData(this.rssArray);
-    } catch (error) {
-      console.error(`Error fetching posts for ${category}:`, error);
-    }
-  }
+       
+        this.showFilteredPosts();
 
+        Storage.loadPostData(this.selectedCategories);
+        Storage.loadRSSData(this.rssArray);
+    } catch (error) {
+        console.error(`Error fetching posts for ${category}:`, error);
+    }
+}
 
 
   async loadNextPosts(limit) {
+   
+    
     const postContainer = document.getElementById('postContainer');
 
     postContainer.innerHTML = '';
 
     for (const category of this.selectedCategories) {
       const url = `https://www.reddit.com/r/${category}/.json?after=${this.afterId}`;
-      await this.loadPosts(category, url, limit);
+      await this.loadPosts(category, url, 10);
     }
   }
 
@@ -118,8 +121,7 @@ export class SideBarComponent extends HTMLElement {
 
     };
 
-    this.nextBtn = document.getElementById('next-page');
-    this.previousBtn = document.getElementById('previous-page');
+    
 
     const sidebar = document.getElementById('sidebar-nav');
     sidebar.innerHTML = '';
@@ -157,9 +159,10 @@ export class SideBarComponent extends HTMLElement {
         rssBtn.textContent = rssLabel;
         rssBtn.classList.add('rss-btn');
         rssBtn.addEventListener('click', () => {
-          document.getElementById('rss-cotainer').innerHTML = '';
-          const rssCard = new Rss();
-          rssCard.loadRSSData(rss);
+          document.getElementById('postContainer').innerHTML = '';
+          
+          Storage.loadRSSData(this.rssArray);
+          Rss.loadSelectedRss()
         });
     
         selectedRSSContainer.appendChild(rssBtn);

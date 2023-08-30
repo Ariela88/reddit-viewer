@@ -156,23 +156,34 @@ export default class Category extends HTMLElement {
 
     loadPosts() {
         this.categories = [];
-        JSON.parse(localStorage.getItem('posts')).map((category) =>
-            fetch(`https://www.reddit.com/r/${category}/new.json`)
-                .then((resp) => resp.json()).then(res => {
+        const postsPerPage = 10; // Imposta il numero di post per pagina
+        const promises = [];
+    
+        JSON.parse(localStorage.getItem('posts')).map((category) => {
+            const fetchPromise = fetch(`https://www.reddit.com/r/${category}/new.json`)
+                .then((resp) => resp.json())
+                .then((res) => {
                     if (res.data && res.data.children) {
-                        for (const data of res.data.children) {
+                        for (const data of res.data.children.slice(0, postsPerPage)) {
                             this.categories.push(data.data);
                         }
                     }
-                    this.showFilteredPosts();
-                    
                 })
                 .catch((error) => {
                     console.error(`Error fetching posts for ${category}:`, error);
                     return { data: { children: [] } };
-                })
-        );
+                });
+    
+            promises.push(fetchPromise);
+        });
+    
+        // Attendere tutte le richieste di fetch prima di chiamare showFilteredPosts()
+        Promise.all(promises)
+            .then(() => {
+                this.showFilteredPosts();
+            });
     }
+    
 
     showFilteredPosts() {
         const postContainer = document.getElementById('postContainer');

@@ -1,8 +1,12 @@
 class Storage {
     static savePostData(data) {
-        const dataArray = Array.from(data);
-        const dataString = JSON.stringify(dataArray);
-        localStorage.setItem('posts', dataString);
+        try {
+            const dataArray = Array.from(data);
+            const dataString = JSON.stringify(dataArray);
+            localStorage.setItem('posts', dataString);
+        } catch (error) {
+            console.error('Error saving data to localStorage:', error);
+        }
     }
 
     static loadPostData() {
