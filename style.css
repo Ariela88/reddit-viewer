@@ -195,6 +195,7 @@ label {
 
 
 .btn-dialog-container {
+    
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -518,7 +519,7 @@ post-card {
         flex-direction: row;
         flex-wrap: wrap;
         margin: 0;
-        padding: 0;
+        padding: 20px 0px;
         justify-content: center;
         align-items: center;
     }
@@ -634,11 +635,14 @@ post-card {
 
 
     #dialog-container {
-        width: 90%;
-        margin: 0;
+        width: 80%;
+        margin: auto;
         display: flex;
-        top: 0;
-        left: 0;
+        flex-direction: column-reverse;
+        top: 20px;
+       left: 0;
+       right: 0;
+       bottom: 0;
         padding: 0;
         position: fixed;
         height: 100%;
@@ -659,10 +663,25 @@ post-card {
     }
 
     .input-card {
-        width: 40%;
+        width: 100%;
 
         margin-bottom: 10px;
     }
+
+
+#dialog-select-type{
+
+    width: 50%;
+    margin: auto;
+
+}
+
+#value-choice{
+    margin: auto;
+    width: 50%;
+}
+
+
 
     #rss-url {
         width: 30%;
