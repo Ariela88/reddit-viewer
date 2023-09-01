@@ -9,7 +9,8 @@ export class SideBarComponent extends HTMLElement {
     this.selectedCategories = new Set();
     this.selectedRss = new Set(); 
     this.loadSelectedCategories();
-    this.loadSelectedRss(); // Carica i feed RSS selezionati
+    this.loadSelectedRss(); 
+    
     this.afterId = '';
     this.nextBtn = document.getElementById('next-page');
     this.previousBtn = document.getElementById('previous-page');
@@ -17,7 +18,7 @@ export class SideBarComponent extends HTMLElement {
   }
 
   loadSelectedRss() {
-    const savedRss = Storage.loadRSSData(this.rssArray);
+    const savedRss = Storage.loadRSSData();
     this.selectedRss = new Set(savedRss);
   }
   connectedCallback() {
@@ -53,7 +54,7 @@ export class SideBarComponent extends HTMLElement {
 
         if (data.data && data.data.children) {
             for (const postData of data.data.children) {
-              console.log(this.postsArray)
+             
                 
                 this.postsArray.push(postData.data);
                 loadedPostsCount++;
@@ -98,8 +99,10 @@ export class SideBarComponent extends HTMLElement {
     }
   }
   render() {
+    const rssView = new Rss
     const sidebar = document.getElementById('sidebar-nav');
-    sidebar.innerHTML = '';
+    sidebar.innerHTML = ''
+   
 
     const showPopPostBtn = document.getElementById('pop-btn-post');
     showPopPostBtn.addEventListener('click', () => this.showPopularPost());
@@ -133,9 +136,10 @@ export class SideBarComponent extends HTMLElement {
     selectedCategoriesContainer.classList.add('selected-categories-container');
 
     for (const category of this.selectedCategories) {
+ 
       const itaLabel = categoryLabels[category];
       const categoryBtn = document.createElement('button');
-      categoryBtn.textContent = itaLabel;
+      categoryBtn.textContent = itaLabel?itaLabel:category;
       categoryBtn.addEventListener('click', () => {
         document.getElementById('postContainer').innerHTML = '';
         this.postsArray = [];
@@ -150,19 +154,19 @@ export class SideBarComponent extends HTMLElement {
 
     
     for (const rssUrl of this.selectedRss) {
+      
+      
       const rssLabel = rssLabels[rssUrl];
       const rssBtn = document.createElement('button');
-      rssBtn.textContent = rssLabel;
+      rssBtn.textContent = rssLabel?rssLabel:rssUrl
       rssBtn.classList.add('rss-btn');
       rssBtn.addEventListener('click', () => {
-        console.log(rssBtn)
+       
         document.getElementById('postContainer').innerHTML = '';
         this.rssArray = []
+        
+          rssView.loadRss()
           
-         
-          const rssView = new Rss()
-          
-          this.loadSelectedRss()
           
         });
     

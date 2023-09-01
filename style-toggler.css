@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Neucha&family=Raleway:wght@200;400;600;700&display=swap');
 
 
-html{
+html {
     font-size: 100%;
 }
+
 body {
     width: 100%;
     box-sizing: border-box;
@@ -197,7 +198,7 @@ label {
 
 
 .btn-dialog-container {
-    
+
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -240,7 +241,7 @@ label {
 
     font-family: 'Neucha', cursive;
     border: 2px solid white;
-   
+
     font-size: 16px;
     margin: auto;
     width: 100%;
@@ -248,7 +249,7 @@ label {
 
 }
 
-#pop-btn-post:hover{
+#pop-btn-post:hover {
     background-color: #beafa5;
     color: orangered;
 }
@@ -357,7 +358,7 @@ post-card {
 
 
 .nav-header {
-    font-size:30px;
+    font-size: 30px;
     text-transform: uppercase;
     font-weight: 600;
     font-family: 'Neucha', cursive;
@@ -438,7 +439,7 @@ post-card {
 
 }
 
-#search-btn{
+#search-btn {
     width: 50px;
     height: 40px;
     border-radius: 26px;
@@ -458,6 +459,14 @@ post-card {
     margin-bottom: 20px;
 }
 
+.menu-toggler {
+    display: none;
+}
+
+.btn-header-toggler {
+    display: none;
+    /* Il menu è visibile per impostazione predefinita */
+}
 
 @media (max-width: 500px) {
 
@@ -465,7 +474,7 @@ post-card {
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        
+
         justify-content: center;
         margin: 0;
     }
@@ -478,7 +487,7 @@ post-card {
     }
 
     .link-logo {
-        width: 100%;
+
         display: flex;
         justify-content: center;
         align-items: center;
@@ -489,6 +498,12 @@ post-card {
 
     #add-category {
         width: 100px;
+        flex-basis: 1;
+        width: 100%;
+        color: white;
+        background-color: transparent;
+        border: none;
+        padding-bottom: 16px;
     }
 
     #pop-btn-post {
@@ -602,19 +617,26 @@ post-card {
 
     } */
 
+    .first-row {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        align-content: center;
+    }
+
     .header {
 
         width: 100%;
         display: flex;
         flex-direction: column;
-        
-        height: 20%;
+
+        height: 15%;
         left: 0;
 
     }
 
     #logo-reddit {
-        width: 30%;
+        width: 100%;
         max-height: 100px;
         height: 100%;
         max-width: 99px;
@@ -627,11 +649,16 @@ post-card {
         align-items: center;
         justify-content: center;
         margin: 0;
+        display: none;
 
 
     }
 
- 
+    #search-btn {
+        background-color: transparent;
+
+    }
+
 
     .list {
         width: 100%;
@@ -658,13 +685,13 @@ post-card {
         display: none;
         flex-direction: column-reverse;
         top: 90px;
-       left: 0;
-       right: 0;
-       bottom: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         padding: 0;
         position: fixed;
         height: 100%;
-        max-height:100vh;
+        max-height: 100vh;
 
     }
 
@@ -688,17 +715,17 @@ post-card {
     }
 
 
-#dialog-select-type{
+    #dialog-select-type {
 
-    width: 50%;
-    margin: auto;
+        width: 50%;
+        margin: auto;
 
-}
+    }
 
-#value-choice{
-    margin: auto;
-    width: 50%;
-}
+    #value-choice {
+        margin: auto;
+        width: 50%;
+    }
 
 
 
@@ -729,10 +756,10 @@ post-card {
         bottom: 0px;
         left: 0px;
         top: unset;
-       
+
         z-index: 9999;
         padding: 10px 0px;
-        
+
     }
 
     .rss-element {
@@ -751,21 +778,80 @@ post-card {
 
     }
 
+    .toggler-list {
+        background-color: white;
+    }
+
+    .btn-header-toggler {
+        display: block;
+        /* Il menu è visibile per impostazione predefinita */
+    }
+
+    /* Nascondi il menu quando la larghezza dello schermo è minore o uguale a 768px */
+
+    .btn-header-toggler {
+        display: none;
+        /* Nascondi il menu */
+    }
+
+    /* Stile per il pulsante del menu quando il menu è nascosto */
+    .menu-toggler {
+        display: block;
+        /* Mostra il pulsante del menu */
+        width: fit-content;
+        justify-self: center;
+        align-self: center;
+
+
+    }
+
+
+    .menu-toggler button {
+        background-color: transparent;
+        color: white;
+        border: none;
+        font-size: 30px;
+
+
+    }
+
+    .btn-header-toggler {
+        background-color: #282626;
+        color: #d9d9d9;
+        display: block;
+        left: 0;
+        top: 10%;
+        width: 100%;
+    }
+
+    .btn-header-toggler button:hover {
+        background-color: #dbdbdb;
+        color: #212121;
+
+    }
 
 }
 
-/* @media (max-width: 640px) { 
-    body {font-size:1.3rem;} 
-    } 
-    
-    @media (min-width: 641px) { 
-    body {font-size:1.2rem;}
-    } 
-     
-    @media (min-width:960px) { 
-    body {font-size:1.4rem;} 
-    } 
-    
-    @media (min-width:1100px) { 
-    body {font-size:1.6rem;}
-    }  */
+@media (max-width: 640px) {
+    body {
+        font-size: 1.3rem;
+    }
+}
+
+@media (min-width: 641px) {
+    body {
+        font-size: 1.2rem;
+    }
+}
+
+@media (min-width:960px) {
+    body {
+        font-size: 1.4rem;
+    }
+}
+
+@media (min-width:1100px) {
+    body {
+        font-size: 1.6rem;
+    }
+}

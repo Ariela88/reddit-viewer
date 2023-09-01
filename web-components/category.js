@@ -177,7 +177,6 @@ export default class Category extends HTMLElement {
             promises.push(fetchPromise);
         });
     
-        // Attendere tutte le richieste di fetch prima di chiamare showFilteredPosts()
         Promise.all(promises)
             .then(() => {
                 this.showFilteredPosts();

@@ -20,17 +20,17 @@ export default class Rss extends HTMLElement {
 
         }
 
-   
+
         this.selectedRss = new Set();
         this.dialogOpened = false;
-       this.loadSelectedRss()
+        this.loadSelectedRss()
         //se commento questa riga, scompaiono le categorie dalla dialog ma compaiono gli rss. altrimenti il contrario
     }
 
 
     // FUNZIONE CHE RECUPERA E SALVA LE CATEGORIE IN LOCALE
     loadSelectedRss() {
-        console.log(this.rssArray)
+       
         const savedRss = Storage.saveRSSData(this.rssArray);
         this.selectedRss = new Set(savedRss);
     }
@@ -39,23 +39,24 @@ export default class Rss extends HTMLElement {
         // VIENE CONTROLLATO SE ALL'INTERNO DELL'ARRAY SONO PRESENTI DATI E VENGONO VISUALIZZATI
 
         if (!this.dialogOpened) {
-            // La dialog non è stata aperta in precedenza, quindi la apri
+         
             const openDialog = document.getElementById('add-category');
             openDialog.addEventListener('click', () => {
-              document.getElementById('dialog-container').style.display = 'flex';
-              this.shadowRoot.innerHTML = '';
-              this.render();
+                document.getElementById('dialog-container').style.display = 'flex';
+                this.shadowRoot.innerHTML = '';
+                this.render();
             });
-        
-            // Imposta la variabile di stato per indicare che la dialog è stata aperta
+
+           
             this.dialogOpened = true;
-          }
+        }
+        this.loadRss()
     }
 
 
 
     render() {
-        
+
 
         document.getElementById('dialog-container').style.display = 'flex';
         const rssContainer = document.getElementById('rss-container');
@@ -88,7 +89,7 @@ export default class Rss extends HTMLElement {
                 checkbox.checked = true;
             }
 
-            this.loadSelectedRss()
+            
 
             const label = document.createElement('label');
             label.for = rssUrl;
@@ -120,11 +121,11 @@ export default class Rss extends HTMLElement {
             sidebar.rss = this.rssLabels
             sidebar.loadSelectedRss()
             sidebar.render()
-            
+
             this.loadRss()
             document.getElementById('dialog-container').style.display = 'none';
         });
-    
+
 
 
 
@@ -141,8 +142,9 @@ export default class Rss extends HTMLElement {
             const newRssUrl = document.getElementById('value-choice').value.trim();
 
             if (newRssUrl !== '' && select.value === 'rss' && !this.rssArray.includes(newRssUrl)) {
-                this.rssArray.push(newRss);
-                this.rssLabels[newRss] = newRss
+                this.rssArray.push(newRssUrl);
+                this.rssLabels[newRssUrl] = newRssUrl
+                
 
                 this.render()
 
@@ -154,17 +156,17 @@ export default class Rss extends HTMLElement {
         dialog.appendChild(dialogInput);
 
 
-        this.loadSelectedRss()
+        // this.loadSelectedRss()
 
 
 
     }
 
-    loadRss() {
+    async loadRss() {
         this.shadowRoot.innerHTML = '';
-       
+
         const rssUrls = this.rssArray;
-    
+
         const rssContainer = document.getElementById('postContainer');
         const parser = new RSSParser();
 
@@ -200,68 +202,68 @@ export default class Rss extends HTMLElement {
                             }
 
 
-    
-                                const rssElement = document.createElement('div');
-    
-                                const rssCard = document.createElement('div');
-                                rssCard.classList.add('rss-card');
-                                const rssHeader = document.createElement('div');
-                                rssHeader.classList.add('rss-header');
-                                const h5 = document.createElement('h5');
-                                const a = document.createElement('a');
-                                const img = document.createElement('img');
-                                const imgContainer = document.createElement('div');
-    
-    
-                                a.href = postLink;
-                                a.target = '_blank';
-                                a.textContent = postTitle;
-                                img.src = imageUrl
-                                img.alt = 'Immagine notizia';
-    
-                                h5.appendChild(a);
-                                rssHeader.appendChild(h5);
-                                rssCard.appendChild(rssHeader);
-                                rssElement.appendChild(rssCard);
-                                imgContainer.appendChild(img)
-                                rssElement.appendChild(imgContainer);
-    
-                                img.classList.add('rss-img')
-    
-                                h5.classList.add('h5-rss');
-                                rssHeader.classList.add('rss-header');
-    
-                                rssCard.classList.add('rss-card');
-                                rssElement.classList.add('rss-element');
-    
-    
-                                rssContainer.appendChild(rssElement);
-                            });
-                        } else {
-                            console.error('Errore nel parsing del feed RSS:', err);
-                        }
-                    });
-                }
-            });
-            
-    Storage.saveRSSData(this.selectedRss)
-    
-    
+
+                            const rssElement = document.createElement('div');
+
+                            const rssCard = document.createElement('div');
+                            rssCard.classList.add('rss-card');
+                            const rssHeader = document.createElement('div');
+                            rssHeader.classList.add('rss-header');
+                            const h5 = document.createElement('h5');
+                            const a = document.createElement('a');
+                            const img = document.createElement('img');
+                            const imgContainer = document.createElement('div');
+
+
+                            a.href = postLink;
+                            a.target = '_blank';
+                            a.textContent = postTitle;
+                            img.src = imageUrl
+                            img.alt = 'Immagine notizia';
+
+                            h5.appendChild(a);
+                            rssHeader.appendChild(h5);
+                            rssCard.appendChild(rssHeader);
+                            rssElement.appendChild(rssCard);
+                            imgContainer.appendChild(img)
+                            rssElement.appendChild(imgContainer);
+
+                            img.classList.add('rss-img')
+
+                            h5.classList.add('h5-rss');
+                            rssHeader.classList.add('rss-header');
+
+                            rssCard.classList.add('rss-card');
+                            rssElement.classList.add('rss-element');
+
+
+                            rssContainer.appendChild(rssElement);
+                        });
+                    } else {
+                        console.error('Errore nel parsing del feed RSS:', err);
+                    }
+                });
+            }
+        });
+
+        Storage.saveRSSData(this.selectedRss)
+
+
+    }
+
+    findImageUrlInContent(content) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = content;
+
+
+        const imgElement = tempDiv.querySelector('img');
+
+        if (imgElement) {
+            return imgElement.src;
         }
 
-        findImageUrlInContent(content) {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = content;
-    
-    
-            const imgElement = tempDiv.querySelector('img');
-    
-            if (imgElement) {
-                return imgElement.src;
-            }
-    
-            return '';
-        }
+        return '';
+    }
 
 
     showFilteredRss() {
@@ -276,7 +278,7 @@ export default class Rss extends HTMLElement {
         });
     }
 
-   
+
 }
 
 customElements.define('rss-input-dialog', Rss);
