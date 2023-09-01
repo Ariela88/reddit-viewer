@@ -154,9 +154,9 @@ export default class Category extends HTMLElement {
        
     }
 
-    loadPosts() {
+   async loadPosts() {
         this.categories = [];
-        const postsPerPage = 10; // Imposta il numero di post per pagina
+        const postsPerPage = 10; 
         const promises = [];
     
         JSON.parse(localStorage.getItem('posts')).map((category) => {

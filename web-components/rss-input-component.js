@@ -22,6 +22,7 @@ export default class Rss extends HTMLElement {
 
    
         this.selectedRss = new Set();
+        this.dialogOpened = false;
        this.loadSelectedRss()
         //se commento questa riga, scompaiono le categorie dalla dialog ma compaiono gli rss. altrimenti il contrario
     }
@@ -37,21 +38,24 @@ export default class Rss extends HTMLElement {
     connectedCallback() {
         // VIENE CONTROLLATO SE ALL'INTERNO DELL'ARRAY SONO PRESENTI DATI E VENGONO VISUALIZZATI
 
-        if (this.selectedRss.size > 0) {
+        if (!this.dialogOpened) {
+            // La dialog non è stata aperta in precedenza, quindi la apri
             const openDialog = document.getElementById('add-category');
             openDialog.addEventListener('click', () => {
-                document.getElementById('dialog-container').style.display = 'flex';
-                this.shadowRoot.innerHTML = '';
-                this.render()
-            })
-        } else {
-            this.render();
-        }
+              document.getElementById('dialog-container').style.display = 'flex';
+              this.shadowRoot.innerHTML = '';
+              this.render();
+            });
+        
+            // Imposta la variabile di stato per indicare che la dialog è stata aperta
+            this.dialogOpened = true;
+          }
     }
 
 
 
     render() {
+        
 
         document.getElementById('dialog-container').style.display = 'flex';
         const rssContainer = document.getElementById('rss-container');
@@ -84,7 +88,7 @@ export default class Rss extends HTMLElement {
                 checkbox.checked = true;
             }
 
-            Storage.saveRSSData(this.rssArray);
+            this.loadSelectedRss()
 
             const label = document.createElement('label');
             label.for = rssUrl;
@@ -111,7 +115,7 @@ export default class Rss extends HTMLElement {
                 }
             });
 
-            Storage.saveRSSData(this.selectedRss);
+            Storage.saveRSSData(Array.from(this.selectedRss));
             const sidebar = new SideBarComponent()
             sidebar.rss = this.rssLabels
             sidebar.loadSelectedRss()
@@ -150,7 +154,7 @@ export default class Rss extends HTMLElement {
         dialog.appendChild(dialogInput);
 
 
-        Storage.saveRSSData(this.selectedRss);
+        this.loadSelectedRss()
 
 
 
@@ -239,6 +243,8 @@ export default class Rss extends HTMLElement {
                     });
                 }
             });
+            
+    Storage.saveRSSData(this.selectedRss)
     
     
         }
@@ -263,7 +269,7 @@ export default class Rss extends HTMLElement {
         this.shadowRoot.innerHTML = '';
         rssContainer.innerHTML = '';
 
-        this.rssUrl.forEach((rss) => {
+        this.rssArray.forEach((rss) => {
             const rssCard = document.createElement('rss-card');
             rssCard.rss = rss;
             rssContainer.appendChild(rssCard);
