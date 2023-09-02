@@ -9,8 +9,7 @@ export class SideBarComponent extends HTMLElement {
     this.selectedCategories = new Set();
     this.selectedRss = new Set(); 
     this.loadSelectedCategories();
-    this.loadSelectedRss(); 
-    
+    this.loadSelectedRss();   
     this.afterId = '';
     this.nextBtn = document.getElementById('next-page');
     this.previousBtn = document.getElementById('previous-page');
@@ -155,7 +154,7 @@ export class SideBarComponent extends HTMLElement {
     
     for (const rssUrl of this.selectedRss) {
       
-      
+      this.rssArray = []
       const rssLabel = rssLabels[rssUrl];
       const rssBtn = document.createElement('button');
       rssBtn.textContent = rssLabel?rssLabel:rssUrl
@@ -163,7 +162,7 @@ export class SideBarComponent extends HTMLElement {
       rssBtn.addEventListener('click', () => {
        
         document.getElementById('postContainer').innerHTML = '';
-        this.rssArray = []
+       
         
           rssView.loadRss()
           
@@ -176,6 +175,8 @@ export class SideBarComponent extends HTMLElement {
     
 
     sidebar.appendChild(selectedCategoriesContainer);
+
+   
    
   }
 

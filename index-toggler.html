@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reddit Task</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <header>
+
+        <div class="header">
+
+
+
+            <div class="first-row">
+                <div class="menu-toggler">
+
+                    <button id="toggle-menu">☰</button>
+                </div>
+                <a class="link-logo" href="http://reddit.com"><img id="logo-reddit"
+                        src="./public/Reddit-Horizontal-White-Logo.wine.png" alt="">
+                </a>
+
+            </div>
+
+            <button id="add-category-toggler"> ＋ Aggingi Categorie </button>
+
+            <div class="btn-header-toggler">
+                <ul class="toggler-list">
+                    <li>
+                        <a href="https://play.google.com/store/apps/details?id=com.reddit.frontpage&hl=en&pli=1"
+                            target="_blank" rel="noopener noreferrer">Scarica App</a>
+                    </li>
+                    <li><a href="https://www.reddit.com/login">Login</a> </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="btn-header">
+            <button id="add-category"> ＋ Aggingi Categorie </button>
+            <button id="download-app-btn">
+                <a href="https://play.google.com/store/apps/details?id=com.reddit.frontpage&hl=en&pli=1" target="_blank"
+                    rel="noopener noreferrer">Scarica App</a></button>
+            <button id="login-btn"><a href="https://www.reddit.com/login">Login</a></button>
+
+            <form name="ricerca">
+
+                <input type="search" name="search" placeholder="   Cerca su Reddit" id="search">
+                <input type="button" value="🔍" id="search-btn"> </input>
+            </form>
+        </div>
+      
+    </header>
+    <main id="main-wrapper" class="main-wrapper">
+        <section class="list">
+            <aside class="sidebar">
+                <div class="nav-header">
+                    Categorie
+                </div>
+                <button id="pop-btn-post"> Show Popular Posts </button>
+
+                <nav id="sidebar-nav">
+
+                </nav>
+
+            </aside>
+        </section>
+        <super-nav></super-nav>
+        <div id="postContainer"></div>
+        <div id="rss-container"></div>
+        <div id="btn-page-container" class="btn-page-container">
+            <button id="previous-page">Previous</button>
+            <button id="next-page"> Next</button>
+        </div>
+        <div id="dialog-container">
+            <pref-dialog></pref-dialog>
+            <category-dialog></category-dialog>
+            <rss-input-dialog></rss-input-dialog>
+            <div id="rss-dialog-container">
+            </div>
+            <div id="selection-dialog-container">
+            </div>
+            <div id="categories-container"> </div>
+            <select name="dialog-select-type" id="dialog-select-type">
+                <option value="category">Categoria</option>
+                <option value="rss">rss</option>
+            </select>
+
+            <input type="text" value="" id="value-choice">
+            <div class="btn-dialog-container" id="btn-dialog-container">
+                <button id="add-new-category">Aggiungi</button>
+                <button id="show-post">Mostra Post</button>
+                <button id="cancel">Cancel</button>
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <footer id="footer"></footer>
+    <script src="./node_modules/rss-parser/dist/rss-parser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/rss-parser@3.13.0/dist/rss-parser.min.js"></script>
+    <script src="./storage-service/storage.js"></script>
+    <!-- <script type="module" src="./web-components/category-posts.js"></script> -->
+    <script type="module" src="./web-components/category.js"></script>
+    <!-- <script src="./web-components/rss-card.js"></script> -->
+    <script type="module" src="./web-components/rss-input-component.js"></script>
+    <script type="module" src="./web-components/super-navbar-component.js"></script>
+    <script src="./web-components/reddit-post.js"></script>
+
+    <script src="./app.js"></script>
+
+
+
+
+
+</body>
+
+</html>
